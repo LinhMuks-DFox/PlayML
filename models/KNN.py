@@ -1,0 +1,2 @@
+class kNNClassifier:
+    pass
