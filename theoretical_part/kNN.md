@@ -14,7 +14,7 @@ kNN 算法，又叫做 k近邻算法，其优点有：
 假设，有一个机器学习的程序，被用来判断一个肿瘤的良恶性。假设肿瘤的良恶性只和肿瘤的生长时间以及肿瘤的大小油有关。
 已知一组肿瘤数据，包含三个内容，肿瘤的大小，生长时间，以及良性/恶性标签（Label）。
 
-<p style="align=center"> <img src="./pngs/kNN_1.png" style="zoom:50%; "></img></p>
+<p style="align:center"><img src="./pngs/kNN_1.png" style="zoom:50%; "/></p>
 
 
 
