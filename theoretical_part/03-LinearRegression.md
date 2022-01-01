@@ -53,6 +53,8 @@
 
 #### <span id="SimpleLinearRegression">简单线性回归（Simple Linear Regression）</span>
 
+[实现](../models/SimpleLinearRegression.py)
+
 只有一个特征，一个输出标记，即，在二维平面中找出一条直线，来拟合样本
 
 2D空间中的直线的表达式为：
@@ -342,6 +344,8 @@ $$
 
 #### <span id="MultipleLinearRegression">多元线性回归（Multiple Linear Regression）</span>
 
+[实现](../models/LinearRegression.py)
+
 ##### <span id="MathReprOfMLR">多元线性回归的数学表达</span>
 
 目标依旧是，使得损失函数
@@ -444,5 +448,5 @@ X_b =
 	&\hat{y}_1& \\
 	&\hat{y}_2&
 \end{matrix}
-\right\} 
+\right\}
 $$
