@@ -13,8 +13,8 @@ class KNNClassifier:
         self._y_train = None
 
     def fit(self, X_train: np.ndarray, y_train: np.ndarray):
-        assert X_train.shape[0] == y_train.shape[0], \ 
-        "the size of X_train must be equal to the size of y_train"
+        assert X_train.shape[0] == y_train.shape[0], \
+            "the size of X_train must be equal to the size of y_train"
         assert self.k <= X_train.shape[0], "the size of X_train must be at least k."
         self._X_train = X_train
         self._y_train = y_train
