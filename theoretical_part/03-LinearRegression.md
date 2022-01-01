@@ -326,3 +326,106 @@ b = \bar{y} - a\bar{x}
 $$
 
 #### 多元线性回归（Simple Linear Regression）
+
+目标依旧是，使得损失函数
+$$
+\sum^m_{i=1}(y_i-\hat{y}_i)^2
+$$
+尽可能地小，但是，$\hat{y}$的表达式变成了：
+$$
+\hat{y}_i = \theta_0 + \theta_1X_i^1+ \theta_2X_i^2+ \theta_nX_i^n \\
+\theta = (\theta_0, \theta_1, \theta_2, \cdots, \theta_n)^T\\
+X_n = (X_0, X_1, X_2, \cdots, X_n)^T
+$$
+其中，$\theta_n$为每一项的系数，$X_i^n$为数据集中第$i$个样本的第$n$个参数（i行n列）。
+
+比如，这个<span id="SampleTrainDataChart">训练数据集</span>
+
+| 房价$y$万元 | 房屋面积$X^1$ | 房屋楼层$X^2$ | 房屋地理位置$X^3$ | ...  |
+| :---------: | :-----------: | :-----------: | :---------------: | :--: |
+|     111     |      222      |      333      |        444        | ...  |
+|     555     |      666      |      777      |        888        | ...  |
+|     ...     |      ...      |      ...      |        ...        | ...  |
+
+一行就是一个房屋样本：
+$$
+111 = \theta_0 +  \theta_1 \times222 + \theta_2 \times333 + \theta_3 \times444 \\
+555 = \theta_0 + \theta_1 \times666 + \theta_2 \times777 + \theta_3 \times888
+$$
+第一个样本房屋的面积数据$X_1^1$就是$222$
+
+若，现在各个$\theta$的值已经是已知数了，测试这些$\theta$值构成的所谓的模型的性能，
+
+有一组<span id="SampleTestDataChart">测试数据集</span>：
+
+| 预测的房价$\hat{y}$万元 | 已知的房屋面积$X^1$ | 已知的房屋楼层$X^2$ | 已知的房屋地理位置$X^3$ | ...  |
+| :---------------------: | :-----------------: | :-----------------: | :---------------------: | :--: |
+|       $\hat{y}_1$       |         233         |         334         |           556           |      |
+|       $\hat{y}_1$       |         779         |         877         |           455           |      |
+|           ...           |         ...         |         ...         |           ...           | ...  |
+
+根据$\hat{y}$的表达式，预测房屋的价格，就应该是：
+$$
+\hat{y}_1 = \theta_0 + \theta_1 \times233 + \theta_2 \times334 + \theta_3 \times556 \\
+\hat{y}_2 = \theta_0 + \theta_1 \times779 + \theta_2 \times877 + \theta_3 \times455
+$$
+将$\hat{y}$的表达式进行转化：
+$$
+X_b = 
+\left\{
+\begin{matrix}
+	1 & X_1^1 & X_2^1& \cdots & X_n^1 \\
+	1 & X_1^1 & X_2^1& \cdots & X_n^1 \\
+	\cdots & \cdots & \cdots \cdots & \cdots \\
+	1 & X_1^m & X_2^m& \cdots & X_n^m \\
+\end{matrix}
+\right\} \\
+
+\theta = 
+\left\{
+\begin{matrix}
+	\theta_0 \\
+	\theta_1 \\
+	\theta_2 \\
+	\cdots \\
+	\theta_n \\
+\end{matrix}
+\right\} \\
+\hat{y} = X_b \cdot \theta
+$$
+其中，n为样本表格又多少列，m为样本表格有多少行（m行n列）
+
+比如上述的[预测数据样例](#SampleTestDataChart)，就可以表示为：
+$$
+X_b = 
+\left\{
+\begin{matrix}
+	233 & 334 & 556 \\
+	779 & 887 & 455
+\end{matrix}
+\right\}, \\
+
+\theta = 
+\left\{
+\begin{matrix}
+	\theta_0 \\
+	\theta_1 \\
+	\theta_2 \\
+	\theta_3 \\
+\end{matrix}
+\right\} ,\\
+
+\hat{y} = X_b \cdot \theta = \\
+\left\{
+\begin{matrix}
+	&\theta_0 + \theta_1\times 233 + \theta_2\times 334 + \theta_3\times 556 &\\
+	&\theta_0 + \theta_1\times 779 + \theta_2\times 887 + \theta_3\times 455 &\\
+\end{matrix}
+\right\} = 
+\left\{
+\begin{matrix}
+	&\hat{y}_1& \\
+	&\hat{y}_2&
+\end{matrix}
+\right\} 
+$$
