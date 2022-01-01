@@ -40,7 +40,7 @@
 
 
 
-#### 简单线性回归（Simple Linear Regression）
+#### <span id="SimpleLineraRegression">简单线性回归（Simple Linear Regression）</span>
 
 只有一个特征，一个输出标记，即，在二维平面中找出一条直线，来拟合样本
 
@@ -324,3 +324,5 @@ a = \frac
 		
 b = \bar{y} - a\bar{x}
 $$
+
+#### 多元线性回归（Simple Linear Regression）
