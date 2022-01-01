@@ -1,5 +1,16 @@
 # Linear Regression
 
+目录：
+
+* [简单的描述](#Descriptions)
+* [简单线性回归](#SimpleLinearRegression)
+    * [如何描述预测值与真值的差距](#TrueValuePrediectValueDistance)
+    * [最小二乘法推导简单线性回归损失函数](#LossFunctionOfSimpleLinearRegressionByLeastSquares)
+* [多元线性回归](#MultipleLinearRegression)
+    * [多元线性回归的数学表达](#MathReprOfMLR)
+
+
+
 线性回归算法
 
 * 解决回归问题
@@ -10,7 +21,7 @@
 
 
 
-#### 简单的描述
+#### <span id="Descriptions">简单的描述</span>
 
 假设，有一组房屋价格是数据，包含房屋的面积和房屋的价格两个内容：
 
@@ -40,7 +51,7 @@
 
 
 
-#### <span id="SimpleLineraRegression">简单线性回归（Simple Linear Regression）</span>
+#### <span id="SimpleLinearRegression">简单线性回归（Simple Linear Regression）</span>
 
 只有一个特征，一个输出标记，即，在二维平面中找出一条直线，来拟合样本
 
@@ -70,7 +81,7 @@ $$
 
 所谓的最佳拟合的直线，应该是，真值和预测值之间的差距最小的。
 
-##### 如何表示预测值$\hat{y_i}$和真值$y_i$之间的差距呢？
+##### <span id="TrueValuePrediectValueDistance">如何表示预测值$\hat{y_i}$和真值$y_i$之间的差距呢？</span>
 
 一个简单方法就是使用减法：$y_i - \hat{y_i}$
 
@@ -149,7 +160,11 @@ $$
 
 
 
-推导过程：
+
+
+##### <span id="LossFunctionOfSimpleLinearRegressionByLeastSquares">最小二乘法推导简单线性回归损失函数</span>
+
+过程如下：
 $$
 J(a, b) = \sum^m_{i = 1} (y_i - ax_i - b)^2
 $$
@@ -325,7 +340,9 @@ a = \frac
 b = \bar{y} - a\bar{x}
 $$
 
-#### 多元线性回归（Simple Linear Regression）
+#### <span id="MultipleLinearRegression">多元线性回归（Multiple Linear Regression）</span>
+
+##### <span id="MathReprOfMLR">多元线性回归的数学表达</span>
 
 目标依旧是，使得损失函数
 $$
