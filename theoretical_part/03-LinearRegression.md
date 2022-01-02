@@ -5,6 +5,7 @@
 * [简单的描述](#Descriptions)
 * [简单线性回归](#SimpleLinearRegression)
     * [如何描述预测值与真值的差距](#TrueValuePrediectValueDistance)
+    * [一个典型地机器学习模型](#A-tyipical-ML-Model)
     * [最小二乘法推导简单线性回归损失函数](#LossFunctionOfSimpleLinearRegressionByLeastSquares)
 * [多元线性回归](#MultipleLinearRegression)
     * [多元线性回归的数学表达](#MathReprOfMLR)
@@ -89,7 +90,7 @@ $$
 
 但是，真值不是总是大于预测值的，一组数据$X$中所有的样本的预测值和其真值的差可能是有正负差别的，加起来可能为0，**不能很好的表示预测值$\hat{y_i}$和真值$y_i$之间的差距**。
 
-一个解决方案就是使用差的绝对值来表示，但是问题是，绝对值函数不是一个处处可导的函数，所以也不考虑
+一个解决方案就是使用差的绝对值来表示，但是问题是，**绝对值函数不是一个处处可导的函数**，所以也不考虑
 
 最优解，就是，真值和预测值之间的差距$d_i$表达为：
 
@@ -119,9 +120,11 @@ $$
 $$
 D = \sum^m_{i = 1} (y_i - ax_i - b)^2
 $$
-取得最小值。
+取得最小值。另外，使用平方还有一个好处：**限制最大误差尽可能地小**
 
 <hr/>
+
+#### <span id="A-tyipical-ML-Model">一个典型地机器学习模型</span>
 
 一句题外话，机器学习许多的算法其实就是这样的过程，找到某个特定的参数，使得某一个函数的取值尽可能大，或者尽可能小，线性回归算法这里的函数就是上述的$D$
 
@@ -352,7 +355,7 @@ $$
 $$
 \sum^m_{i=1}(y_i-\hat{y}_i)^2
 $$
-尽可能地小，但是，$\hat{y}$的表达式变成了：
+尽可能地小，但是，这里并不是找到一组$(a, b)$，而是找到一组$n+1$个$\theta=(\theta_0, \theta_1, \cdots,\theta_n)$，使得目标函数取得最小值，$\hat{y}$的表达式变成了：
 $$
 \hat{y}_i = \theta_0 + \theta_1X_i^1+ \theta_2X_i^2+ \theta_nX_i^n \\
 \theta = (\theta_0, \theta_1, \theta_2, \cdots, \theta_n)^T\\
@@ -392,6 +395,17 @@ $$
 $$
 将$\hat{y}$的表达式进行转化：
 $$
+X = 
+\left\{
+\begin{matrix}
+	X_1^1 & X_2^1& \cdots & X_n^1 \\
+	X_1^1 & X_2^1& \cdots & X_n^1 \\
+	\cdots & \cdots & \cdots \cdots & \cdots \\
+	X_1^m & X_2^m& \cdots & X_n^m \\
+\end{matrix}
+\right\} \\
+
+
 X_b = 
 \left\{
 \begin{matrix}
@@ -413,16 +427,29 @@ X_b =
 \end{matrix}
 \right\} \\
 \hat{y} = X_b \cdot \theta
+\tag{数学表达}
 $$
-其中，n为样本表格又多少列，m为样本表格有多少行（m行n列）
+其中，n为样本表格又多少列，m为样本表格有多少行（m行n列）。
+
+* $X$是数据矩阵。
+* $X_b$实在$X$地基础上，在最左边增加一全部都是1的列，因为$\theta_0$是一个常数。
+* $\theta$是机器学习学习到的参数，也就是所谓的*模型*
+* $\hat{y}$是一个向量，其中的元素是使用$\theta$对$X$中每一样样本进行预测的结果。
 
 比如上述的[预测数据样例](#SampleTestDataChart)，就可以表示为：
 $$
-X_b = 
+X = 
 \left\{
 \begin{matrix}
 	233 & 334 & 556 \\
 	779 & 887 & 455
+\end{matrix}
+\right\}, \\
+
+X_b = \left\{
+\begin{matrix}
+	1 & 233 & 334 & 556 \\
+	1 & 779 & 887 & 455
 \end{matrix}
 \right\}, \\
 
@@ -448,5 +475,29 @@ X_b =
 	&\hat{y}_1& \\
 	&\hat{y}_2&
 \end{matrix}
-\right\}
+\right\}\tag{示例测试数据的数学表达}
 $$
+
+
+
+到此为止，可以重新整理目标函数，因为$\hat{y} = X_b \cdot \theta$，所以原目标函数$\sum^m_{i=1}(y_i-\hat{y}_i)^2$就可以转化为：
+$$
+(y - X_b \cdot \theta)^T(y-X_b \cdot \theta)
+$$
+前半部分是一个$1\times m$的行向量，后半部分是一个$m\times 1$的列向量，这两个向量相乘的结果是一个值，所以目标就是估计一个$\theta$使得上述矩阵运算的结果尽可能地小。
+
+思路也很简单，就是使用最小二乘法，对每一个量求导，然后求极值，但是过程相对复杂，这里只写结果：
+$$
+\theta = (X_b^T X_b)^{-1} X_b^T y \tag{Norlmal Equation}
+$$
+这个式子被称为，**多元线性回归地正规方程解**
+
+不需要记忆，一查哪儿都有，并且除了最小二乘法还有别的方法可以推导。
+
+
+
+这个求解有一个问题：时间复杂度高，高达$O(n^3)$，即便是优化后，也高达$O(n^{2.4})$。
+
+优点就是不需要对数据做归一化处理。
+
+更加好用地方法，参考下一章，梯度下降法。
