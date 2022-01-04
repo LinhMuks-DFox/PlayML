@@ -3,6 +3,7 @@
 目录：
 
 * [梯度下降法介绍](#Introduction-Of-Gradient-Descent)
+* [线性回归中的梯度下降法](#Gradient-Descent-in-LR)
 * [图像绘制代码](#Plot-code)
 
 
@@ -90,6 +91,165 @@ $\eta$太大：
 * 梯度下降法的初始点也是一个超参数。
 
 详细内容参见[模拟梯度下降法](../notebooks/chp4-Gradient-Descent-And-Linear-Regression/01-Gradient-Descent-Simulations.ipynb)
+
+
+
+
+
+### <span id="Gradient-Descent-in-LR">线性回归中的梯度下降法</span>
+
+可以确定地是$\theta=(\theta_0, \theta_1, \cdots,\theta_n)$是一个向量，内涵的元素都是**未知量**，参考[梯度下降法介绍](#Introduction-Of-Gradient-Descent)中的横坐标，有$(n+1)$个元素，即便是简单线性回归法里，也是一个包含两个元素的向量。
+
+多个参数$\theta$，其导数$\frac{dJ}{d\theta}$应该也是一个包含$(n+1)$个元素的向量：
+$$
+\frac{dJ}{d\theta} = 
+\nabla J = (
+	\frac{\partial J}{\partial \theta_0}, 
+	\frac{\partial J}{\partial \theta_1}, 
+	\cdots,
+	\frac{\partial J}{\partial \theta_n}, 
+)
+$$
+**梯度代表方向，对应损失函数$J$增大最快的方向。**
+
+比如对这个函数：
+$$
+J = z = x^2 + 2y^2
+$$
+使用梯度下降法：
+
+<p style="align:center"><img src="./pngs/GradientDescent_7.png" style="zoom:75%; "/></p>
+
+红色的一圈一圈的是等高线，也就是损失函数$J$的取值，越是靠外，$J$的取值越大，反之越小。
+
+图的中心达到$J$的最小值。
+
+从起始点开始，到最小值为止，有无数条通路，但是**梯度所代表的方向是下降最快的**
+
+回到线性回归法的目标，使得损失函数$J$最小
+$$
+\space J = \sum^m_{i=1} (y_i - \hat{y}_i)^2 \\
+\hat{y}_i = \theta_0 + \theta_1 X_i^1 + \theta_2 X_i^2 + \cdots + \theta_n X_i^n \\
+\space J = \sum^m_{i=1} (
+	y_i - \theta_0 
+	- \theta_0 X_i^1 
+	- \theta_1 X_i^2 
+	- \cdots - 
+	\theta_n X_i^n
+)^2
+$$
+其中：
+
+* $\hat{y}_i$表示对需要预测的第$i$样本的预测值
+* $X_i^n$，上标表示需要预测的第$i$个样本的第$n$的特征，比如房产数据的房屋面积，坐标等
+* $m$表示样本总个数
+
+在$J$上，对$\theta$求梯度：
+$$
+\nabla J(\theta) = 
+\left \{
+\begin{matrix}
+	\frac{\partial J}{\partial \theta_0}, \\
+	\frac{\partial J}{\partial \theta_1}, \\
+	\cdots,\\
+	\frac{\partial J}{\partial \theta_n} 
+\end{matrix}
+\right \}
+\\ =  
+
+\left \{
+\begin{matrix}
+	\sum^m_{i=1}2(y_i - X_i^b\theta)\cdot (-1) \\
+	\sum^m_{i=1}2(y_i - X_i^b\theta)\cdot (-X_i^1)\\
+	\sum^m_{i=1}2(y_i - X_i^b\theta)\cdot (-X_i^2) \\
+	\cdots \\
+	\sum^m_{i=1}2(y_i - X_i^b\theta)\cdot (-X_i^n) \\
+\end{matrix}
+\right \}
+\\ =
+2 \cdot
+\left \{
+\begin{matrix}
+	\sum^m_{i=1}(X_i^b\theta - y_i), \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^1) \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^2) \\
+	\cdots \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^n) \\
+\end{matrix}
+\right \}
+$$
+其中:
+
+* $X_i^b$是一个矩阵，$X_i^b = (1, X_i^1, X_i^2, \cdots X_i^n)$，$i$表示第$i$个样本，$n$表示样本的第$n$个特征，为了给$\theta_0$，也就是常数项凑一个向，在原本的数据表格的基础上加上了一列1
+* $\theta=(\theta_0, \theta_1, \cdots,\theta_n)$
+
+举个实际的例子：
+
+房产数据：
+
+| 预测房价 | 房子面积$(m^2)$ | 房子地理位置 | 空气污染 | 第n个特征 |
+| :--------------------------: | :------: | :--: | :--: | ---------------------------- |
+| $\hat{y}_1$ | 150 | 123 | 12312 | ... |
+| $\hat{y}_2$ | 200 | 121 | 3423 | $X_1^n$   |
+| ... | ... | ... |    .     | $X_2^n$   |
+| $\hat{y}_i$ | $X_i^1$ | $X_i^1$ | $X_i^1$ | $X_i^n$ |
+
+这个数据对应的$X_i^b, \hat{y}_i$，be like:
+$$
+X_i^b = 
+\left \{
+\begin{matrix} 
+	1 & 150 & 123 \\
+	1 & 200 & 121 \\
+	  &\cdots &
+\end{matrix} 
+\right \}
+$$
+ 回到梯度的表达式：
+$$
+\nabla J(\theta)=
+2 \cdot
+\left \{
+\begin{matrix}
+	\sum^m_{i=1}(X_i^b\theta - y_i), \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^1) \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^2) \\
+	\cdots \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^n) \\
+\end{matrix}
+\right \}
+$$
+在这个式子中，每一项前都有一个求和符号，也就意味着，样本越多，梯度越大，这是不合理的。
+
+应该消除样本数量对梯度的影响。给整个梯度值除以$m$即可
+$$
+\nabla J(\theta)=
+\frac{2}{m} \cdot
+\left \{
+\begin{matrix}
+	\sum^m_{i=1}(X_i^b\theta - y_i), \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^1) \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^2) \\
+	\cdots \\
+	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^n) \\
+\end{matrix}
+\right \}
+$$
+也就意味着给目标函数$J$乘了一个$\frac{1}{m}$：
+$$
+J = \frac{1}{m} \sum^m_{i=1}(y_i - \hat{y}_i)^2
+$$
+这个式子非常眼熟，实际上他就是，MSE
+$$
+J(\theta) = MSE(y, \hat{y})
+$$
+在有些教材里，也会把多元线性回归的损失函数写成：
+$$
+J = \frac{1}{2m} \sum^m_{i=1}(y_i - \hat{y}_i)^2
+$$
+这样做的好处很简单，就是求梯度的时候，由平方产生的2会被他抵消。两倍的差距在实际应用中差别不大。用谁都可以。
+
+使用梯度下降法，允许对目标函数进行一定的修整，不是目标函数的所有形态都适合使用梯度下降法。
 
 ### <span id="Plot-code">上述图片绘制代码</span>
 
