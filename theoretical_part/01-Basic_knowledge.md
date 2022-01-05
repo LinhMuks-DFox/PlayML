@@ -187,10 +187,12 @@ $$
 * 适用于数据分布没有明显的边界，可能存在极端数据的情况 当然，这不意味着有明显边界的数据不适用这种方法
 
 $$
-x_{scale} = \frac{x - \bar{x}} {S} \\ 
-\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i (均值) 
-\\ S = \frac { \sum_{i=1}^n
+\begin{align}
+x_{scale} &= \frac{x - \bar{x}} {S} \\ 
+\bar{x} &= \frac{1}{n} \sum_{i=1}^n x_i (均值) 
+\\ S &= \frac { \sum_{i=1}^n
 x_i-\bar{x}} {n - 1} (方差)
+\end{align}
 $$
 
 将归一化算法用在机器学习的过程中的时候有一个注意事项

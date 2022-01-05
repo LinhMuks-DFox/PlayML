@@ -25,8 +25,10 @@
 
 在这个例子中，损失函数处于二位平面，相当于参数只有一个，并且我人为的指定其表达式为：
 $$
-J = 2 \theta^2 -4\theta + 2 \\
-\frac{dJ}{d\theta} = 4\theta-4
+\begin{align}
+J &= 2 \theta^2 -4\theta + 2 \\
+\frac{dJ}{d\theta} &= 4\theta-4
+\end{align}
 $$
 并且$\theta$的取值范围是$[0, 2)$
 
@@ -128,15 +130,19 @@ $$
 
 回到线性回归法的目标，使得损失函数$J$最小
 $$
-\space J = \sum^m_{i=1} (y_i - \hat{y}_i)^2 \\
-\hat{y}_i = \theta_0 + \theta_1 X_i^1 + \theta_2 X_i^2 + \cdots + \theta_n X_i^n \\
-\space J = \sum^m_{i=1} (
+\begin{align}
+
+J &= \sum^m_{i=1} (y_i - \hat{y}_i)^2 \\
+\hat{y}_i &= \theta_0 + \theta_1 X_i^1 + \theta_2 X_i^2 + \cdots + \theta_n X_i^n \\
+J &= \sum^m_{i=1} (
 	y_i - \theta_0 
 	- \theta_0 X_i^1 
 	- \theta_1 X_i^2 
 	- \cdots - 
 	\theta_n X_i^n
 )^2
+
+\end{align}
 $$
 其中：
 
@@ -146,7 +152,9 @@ $$
 
 在$J$上，对$\theta$求梯度：
 $$
-\nabla J(\theta) = 
+\begin{align}
+
+\nabla J(\theta) &= 
 \left \{
 \begin{matrix}
 	\frac{\partial J}{\partial \theta_0}, \\
@@ -155,7 +163,7 @@ $$
 	\frac{\partial J}{\partial \theta_n} 
 \end{matrix}
 \right \}
-\\ =  
+\\ &=  
 
 \left \{
 \begin{matrix}
@@ -166,7 +174,7 @@ $$
 	\sum^m_{i=1}2(y_i - X_i^b\theta)\cdot (-X_i^n) \\
 \end{matrix}
 \right \}
-\\ =
+\\ &=
 2 \cdot
 \left \{
 \begin{matrix}
@@ -177,6 +185,7 @@ $$
 	\sum^m_{i=1}(X_i^b\theta - y_i)\cdot (X_i^n) \\
 \end{matrix}
 \right \}
+\end{align}
 $$
 其中:
 

@@ -111,9 +111,11 @@ $$
 取得最小值。又，$\hat{y_i}$有自己的表达式，故：
 
 $$
-D = \sum^m_{i = 1} (y_i - \hat{y_i}) ^ 2\\
-\hat{y_i} = ax_i + b \\
-D = \sum^m_{i = 1} (y_i - ax_i - b)^2
+\begin{align}
+D &= \sum^m_{i = 1} (y_i - \hat{y_i}) ^ 2\\
+\hat{y_i} &= ax_i + b \\
+D &= \sum^m_{i = 1} (y_i - ax_i - b)^2
+\end{align}
 $$
 
 即，目标变成了，找到一个特定的$a$ 和$b$，使得：
@@ -155,11 +157,13 @@ flowchart LR
 通过推导，$a$和$b$的表达式为：
 
 $$
-a = \frac 
+\begin{align}
+a &= \frac 
 		{\sum^m_{i=1} (x_i - \bar{x})(y_i - \bar{y})} 
 		{\sum^m_{i=1} (x_i - \bar{x}) ^ 2} \\
 		
-b = \bar{y} - a\bar{x}
+b &= \bar{y} - a\bar{x}
+\end{align}
 $$
 其中，$\bar{x}$为所有$x_i$的均值，$\bar{y}$为所有$y_i$的均值
 
@@ -176,9 +180,11 @@ $$
 $J$是关于$a$, $b$的函数，$y_i, x_i$都是已知的，是监督学习提供的数据，使得这个函数尽可能小。
 求取最小值，实际上是一个求解极值的过程，求函数极值的一个方法就是对这个函数的各个分量进行求导，使其导函数的值为0，即：
 $$
-J(a, b) = \sum^m_{i = 1} (y_i - ax_i - b)^2 \\
-let, \frac {\partial J(a, b)}{\partial a} = 0 \\
-let, \frac {\partial J(a, b)}{\partial b} = 0 \\
+\begin{align}
+J(a, b) &= \sum^m_{i = 1} (y_i - ax_i - b)^2 \\
+let, \frac {\partial J(a, b)}{\partial a} &= 0 \\
+let, \frac {\partial J(a, b)}{\partial b}& = 0 \\
+\end{align}
 $$
 对$b$求导，根据链式求导法则：
 $$
@@ -196,8 +202,10 @@ $$
 也就是说:
 
 $$
-\frac {\partial J(a, b)}{\partial b} = \sum^m_{i=1} (y_i -ax_i -b ) \\
-= \sum^m_{i=1} y_i - a\sum^m_{i=1}x_i - \sum^m_{i=1}b = 0
+\begin{align}
+\frac {\partial J(a, b)}{\partial b} &= \sum^m_{i=1} (y_i -ax_i -b ) \\
+&= \sum^m_{i=1} y_i - a\sum^m_{i=1}x_i - \sum^m_{i=1}b = 0
+\end{align}
 $$
 因为$b$是一个常数，有m个样本，也就是把m个$b$相加，也就是$mb$:
 $$
@@ -205,8 +213,10 @@ $$
 $$
 移项：
 $$
-\sum^m_{i=1} y_i - a\sum^m_{i=1}x_i - mb = 0 \\
-\sum^m_{i=1} y_i - a\sum^m_{i=1}x_i = mb
+\begin{align}
+\sum^m_{i=1} y_i - a\sum^m_{i=1}x_i - mb &= 0 \\
+\sum^m_{i=1} y_i - a\sum^m_{i=1}x_i& = mb
+\end{align}
 $$
 两边同时除以m，等式右边化为$b$，对于等式的左边：
 * 全体m个$y_i$求和再除以m，意味着这个表达式就是$y_i$的平均值
@@ -221,9 +231,11 @@ $$
 
 那么，对于$a$来说：
 $$
-J(a, b) = \sum^m_{i = 1} (y_i - ax_i - b)^2 \\
-let, \frac {\partial J(a, b)}{\partial a} = 0 \\
-b = \bar{y} - a\bar{x}
+\begin{align}
+J(a, b) &= \sum^m_{i = 1} (y_i - ax_i - b)^2 \\
+let, \frac {\partial J(a, b)}{\partial a} &= 0 \\
+b &= \bar{y} - a\bar{x}
+\end{align}
 $$
 对$a$求导：
 
@@ -238,51 +250,58 @@ $$
 $$
 将括号外的$x_i$乘进去，并且把含a的项放在一起：
 $$
+\begin{align}
 \sum^m_{i = 1} 
-	(y_ix_i - ax_i^2 - \bar{y}x_i + a\bar{x}x_i) =0 \\
+	(y_ix_i - ax_i^2 - \bar{y}x_i + a\bar{x}x_i) &=0 \\
 \sum^m_{i = 1} 
-	(y_ix_i  - \bar{y}x_i - ax_i^2 + a\bar{x}x_i) =0\\
+	(y_ix_i  - \bar{y}x_i - ax_i^2 + a\bar{x}x_i) &=0\\
+\end{align}
 $$
 将求和符号拆分，把含有a和不含有a的项拆分，并且提取a：
 
 $$
+\begin{align}
 \sum^m_{i = 1} 
-	(y_ix_i  - \bar{y}x_i) 
+	(y_ix_i  &- \bar{y}x_i) 
 - 
 \sum^m_{i = 1} 
-	(ax_i^2 - a\bar{x}x_i)=0 \\
+	(ax_i^2 - a\bar{x}x_i)&=0 \\
 	
 \sum^m_{i = 1} 
-	(y_ix_i  - \bar{y}x_i) 
+	(y_ix_i  &- \bar{y}x_i) 
 - 
 a\sum^m_{i = 1} 
-	(x_i^2 - \bar{x}x_i)=0 \\
+	(x_i^2 - \bar{x}x_i)&=0 \\
+\end{align}
 $$
 
 然后移项，然后除法操作时的左边只保留a：
 
 $$
-\sum^m_{i = 1} 
-	(y_ix_i  - \bar{y}x_i) 
-- 
-a\sum^m_{i = 1} 
-	(x_i^2 - \bar{x}x_i) =0 \\
-	
+\begin{align}
+	%% 第一个式子
+    &\sum^m_{i = 1} 
+        (y_ix_i  - \bar{y}x_i) 
+    - 
+    a\sum^m_{i = 1} 
+        (x_i^2 - \bar{x}x_i) &= &0 \\
+	%% 第二个式子
+    &a\sum^m_{i = 1} 
+        (x_i^2 - \bar{x}x_i) 
+    &=&
+    \sum^m_{i = 1} 
+        (y_ix_i  - \bar{y}x_i)\\
+	%% 第三个式子
+    &a &= &\frac
+        {
+            \sum^m_{i = 1}(y_ix_i  - \bar{y}x_i)
+        } 
 
-a\sum^m_{i = 1} 
-	(x_i^2 - \bar{x}x_i) 
-=
-\sum^m_{i = 1} 
-	(y_ix_i  - \bar{y}x_i)\\
-
-a = \frac
-	{
-		\sum^m_{i = 1}(y_ix_i  - \bar{y}x_i)
-	} 
-	
-	{
-		\sum^m_{i = 1} (x_i^2 - \bar{x}x_i) 
-    }
+        {
+            \sum^m_{i = 1} (x_i^2 - \bar{x}x_i) 
+        }
+    
+\end{align}
 $$
 至此，$a$的表达式就已经求解，但是，为了方便再编程中使用，加速其计算，还可以对$a$进行进一步化简。
 对于等式的上半部，其中$x_i \bar{y}$的$\bar{y}$是一个常数，可以提取出来：
@@ -395,7 +414,8 @@ $$
 $$
 将$\hat{y}$的表达式进行转化：
 $$
-X = 
+\begin{align}
+X &= 
 \left\{
 \begin{matrix}
 	X_1^1 & X_2^1& \cdots & X_n^1 \\
@@ -406,7 +426,7 @@ X =
 \right\} \\
 
 
-X_b = 
+X_b &= 
 \left\{
 \begin{matrix}
 	1 & X_1^1 & X_2^1& \cdots & X_n^1 \\
@@ -416,7 +436,7 @@ X_b =
 \end{matrix}
 \right\} \\
 
-\theta = 
+\theta &= 
 \left\{
 \begin{matrix}
 	\theta_0 \\
@@ -426,8 +446,9 @@ X_b =
 	\theta_n \\
 \end{matrix}
 \right\} \\
-\hat{y} = X_b \cdot \theta
+\hat{y} &= X_b \cdot \theta
 \tag{数学表达}
+\end{align}
 $$
 其中，n为样本表格又多少列，m为样本表格有多少行（m行n列）。
 
@@ -438,7 +459,8 @@ $$
 
 比如上述的[预测数据样例](#SampleTestDataChart)，就可以表示为：
 $$
-X = 
+\begin{align}
+X &= 
 \left\{
 \begin{matrix}
 	233 & 334 & 556 \\
@@ -446,14 +468,14 @@ X =
 \end{matrix}
 \right\}, \\
 
-X_b = \left\{
+X_b &= \left\{
 \begin{matrix}
 	1 & 233 & 334 & 556 \\
 	1 & 779 & 887 & 455
 \end{matrix}
 \right\}, \\
 
-\theta = 
+\theta &= 
 \left\{
 \begin{matrix}
 	\theta_0 \\
@@ -463,7 +485,8 @@ X_b = \left\{
 \end{matrix}
 \right\} ,\\
 
-\hat{y} = X_b \cdot \theta = \\
+\hat{y} &= X_b \cdot \theta 
+\\ &=
 \left\{
 \begin{matrix}
 	&\theta_0 + \theta_1\times 233 + \theta_2\times 334 + \theta_3\times 556 &\\
@@ -476,6 +499,7 @@ X_b = \left\{
 	&\hat{y}_2&
 \end{matrix}
 \right\}\tag{示例测试数据的数学表达}
+\end{align}
 $$
 
 
