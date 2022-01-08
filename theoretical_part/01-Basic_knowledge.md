@@ -59,26 +59,29 @@ $$
 $$
 上述公式可以使用如下代换化简：
 $$
+\begin{align}
 \sum^m_{i=1}(
 	x_i - \bar{X}
-)^2 = 
+)^2 &= 
 \sum^m_{i=1}(
 	x_i - 2x_i\cdot\bar{X}+\bar{X}^2
-)^2 \\ =
+)^2 \\ &=
 (\sum^m_{i=1} x_i^2) - m \cdot \bar{X}^2
+\end{align}
 $$
 所以：
 $$
-\sigma_X = \sqrt{
+\begin{align}
+\sigma_X &= \sqrt{
 	\frac{1}{m}
 	\sum^m_{i=1}(
 		x_i - \bar{X}
 	)^2
-} \\ =
+} \\ &=
 \sqrt{
 	\frac{1}{m}
 	(\sum^m_{i=1} x_i^2) - \frac{1}{m}\cdot m \cdot \bar{X}^2
-} \\ =
+} \\ &=
 \sqrt{
 	\frac
 	{\sum^m_{i=1}x_i^2}
@@ -86,6 +89,7 @@ $$
 	-
 	\bar{X}^2
 }
+\end{align}
 $$
 
 
