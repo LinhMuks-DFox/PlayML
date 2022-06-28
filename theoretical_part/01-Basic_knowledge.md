@@ -128,7 +128,7 @@ TestSet .- Test .-> Model
 
 (这里没写完)
 
-#### <span id="ClassificationAlgorithmPerformanceEvaluation">分类(classify)算法的评价指标(Accuracy)</span>>
+#### <span id="ClassificationAlgorithmPerformanceEvaluation">分类(classify)算法的评价指标(Accuracy)</span>
 
 [实现](../modules/metrics.py)
 
@@ -158,8 +158,12 @@ kNN算法没有模型参数，但是k是kNN算法中的超参数
 
 如果使用这样的一组数据，作为训练数据集，样本间的距离被发现时间这一项所主导
 
-若，我们将发现时间转化为年 | | 肿瘤大小(cm) | 发现天数(years) | | :-----: | :----------: | :-------------: | | Sample1 | 1 | 200=0.55年 | |
-Sample2 | 5 | 100=0.27年 |
+若，我们将发现时间转化为年 
+
+| | 肿瘤大小(cm) | 发现天数(years) | 
+| :-----: | :----------: | :-------------: | 
+| Sample1 | 1 | 200=0.55年 | 
+|Sample2 | 5 | 100=0.27年 |
 
 可以发现，样本间的距离又会被肿瘤大小所影响 这是因为两种数据之间的量纲不一致导致的。
 
