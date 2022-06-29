@@ -1,8 +1,13 @@
 # 逻辑回归算法
 
-* 逻辑回归：解决分类问题
-* 将样本的特征和样本法身的概率联系起来，概率是一个数字，所以可以叫做回归问题
+本章节目录：
 
+* [简单的算法描述](#descriptions)
+* [Sigmoid函数](#Sigmoid-Function)
+* [逻辑回归算法的损失函数](#Loss-Function-Of-Logistic-Regression)
+* [损失函数的梯度](#Gradient-Of-The-Loss-Function-Of-Logistic-Regression)
+
+#### <span id="descriptions">简单的算法描述</span>
 对于逻辑回归来说，$\hat{y} = f(x)$所获取到的预测值，本质上是一个概率，因此，这个简单的表达式也可以换成：
 $$
 \hat{p} = f(x)
@@ -31,7 +36,11 @@ $$
 $$
 \hat{p} = \sigma(\theta^T \cdot x_b)
 $$
-这个sigma函数，一般采用**Sigmoid**函数，这个函数的表达式是：
+
+
+#### <span id="Sigmoid-Function">Sigmoid 函数</span>
+
+sigma函数，一般采用**Sigmoid**函数，这个函数的表达式是：
 $$
 \sigma(t) = \frac{1}{1 + e^{-t}}
 $$
@@ -61,11 +70,11 @@ $$
 $$
 对应的问题来了：
 
-**对于给定的样本数据集$(X, y)$，如何找到参数$\theta$，使得上述公式，可以最大程度的获得样本数据$X$对应的分类输出$y$？**
+**对于给定的样本数据集$(X, y)$，如何找到参数$\theta$，使得上述表达式，可以最大程度的获得样本数据$X$对应的分类输出$y$？**
 
  
 
-#### 逻辑回归的损失函数
+#### <span id="Loss-Function-Of-Logistic-Regression">逻辑回归的损失函数</span>
 
 在之前的表达式
 
@@ -140,3 +149,53 @@ $$
 * 真值为1时，p越小（=越倾向于将样本分类为0），说明，sigmoid给出的偏离越大。
 
 * 真值为0时，p越大（=越倾向于将样本分类为1），说明，sigmoid给出的偏离越大。
+
+到此为止并没有结束，因为，cost现在还是有条件的，需要分开计算，最好是合在一起，因此，引入这个函数作为损失函数：
+$$
+cost = - y \log{(\hat{p})} - (1 - y) \log{(1 - \hat{p})}
+$$
+这两个函数是等价的，原理很简单，如果$y = 1$，上述等式中的$(1-y)$取值是0，后半部分的log相当于被关闭里，如果$y = 0$，相当于前半部分的log被关闭了，因此，这两个函数是等价的。
+
+
+
+这是一个样本对应的输出，如果我们有m个样本，就有m个损失，我么只需要将m个损失加起来即可：
+
+也因此，对于多个输入样本以及这些样本对应的输出，我们有损失函数：
+$$
+J(\theta) = -\frac{1}{m} \sum_{i = 1} ^ {m}
+	y^{(i)} \log{(\hat{p}^{(i)})} + (1 - y^{(i)}) \log{(1 - \hat{p}^{(i)})} \\
+
+\hat{p} = \sigma(X_b^{(i)} \theta) = \frac{1} {1 + e^{-X_b^{(i)} \theta} }
+$$
+将$\hat{p}$的表达式带入损失函数，有：
+$$
+J(\theta) = -\frac{1}{m} \sum_{i = 1} ^ {m}
+	y^{(i)} \log{(\sigma(X_b^{(i)} \theta))} + (1 - y^{(i)}) \log{(1 - \sigma(X_b^{(i)} \theta) } \\
+$$
+因此，其底层逻辑就是：**对于给定的样本数据集$(X, y)$，如何找到参数$\theta$，使得$J(\theta)$，达到最小值？**
+
+一个不好的消息就是，对于这个复杂的$J(\theta)$，不能像是线性回归算法那样获取到一个正规方程解，对于$J(\theta)$来说，没有一个数学的解析解
+
+一个好消息是，之前铺垫的梯度下降法，在这里就可以使用了，**这个损失函数是一个凸函数，是没有局部最优解的，只存在唯一的一个全局最优解**。
+
+#### <span id="Gradient-Of-The-Loss-Function-Of-Logistic-Regression">逻辑回归的损失函数的梯度</span>
+
+先从结论说起，不看推倒的话，看完公式即可：
+$$
+\nabla J (\theta) = \frac{1}{m} \cdot 
+\left \{
+\begin{matrix}
+
+   \sum_{i = 1}^m (\hat{y}^{(i)} - y^{(i)}) \\
+   \sum_{i = 1}^m (\hat{y}^{(i)} - y^{(i)})\cdot X_1^{(i)} \\
+   \sum_{i = 1}^m (\hat{y}^{(i)} - y^{(i)})\cdot X_2^{(i)} \\
+   \cdots \\
+   \sum_{i = 1}^m (\hat{y}^{(i)} - y^{(i)})\cdot X_n^{(i)} \\
+\end{matrix}
+\right \}
+= \frac{1}{m} \cdot X_b^T \cdot (\sigma(X_b\theta) - y)
+$$
+（推导过程先略过）
+
+
+
