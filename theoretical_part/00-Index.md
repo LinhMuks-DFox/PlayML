@@ -4,7 +4,7 @@
 
 目录：
 
-* 00-Index 想到页面
+* 00-Index 向导页面
 
 * [01-Basic_knowledge 基础知识](01-Basic_knowledge.html)
 * 02-KNN K近邻模型
