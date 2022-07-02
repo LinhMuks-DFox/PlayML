@@ -1,5 +1,7 @@
 import numpy as np
+
 from .metrics import r2_score
+
 
 class LinearRegression:
 
@@ -79,7 +81,7 @@ class LinearRegression:
             m = len(X_b)
             for i_iter in range(n_iters):
                 indexes = np.random.permutation(m)
-                X_b_new = X_b[indexes,:]
+                X_b_new = X_b[indexes, :]
                 y_new = y[indexes]
                 for i in range(m):
                     gradient = dJ_sgd(theta, X_b_new[i], y_new[i])

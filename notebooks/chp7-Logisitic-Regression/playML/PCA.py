@@ -48,7 +48,7 @@ class PCA:
         for i in range(self.n_components):
             initial_w = np.random.random(X_pca.shape[1])
             w = first_component(X_pca, initial_w, eta, n_iters)
-            self.components_[i,:] = w
+            self.components_[i, :] = w
 
             X_pca = X_pca - X_pca.dot(w).reshape(-1, 1) * w
 
@@ -68,4 +68,3 @@ class PCA:
 
     def __repr__(self):
         return "PCA(n_components=%d)" % self.n_components
-

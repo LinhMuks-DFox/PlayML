@@ -1,6 +1,8 @@
-import numpy as np
-from math import sqrt
 from collections import Counter
+from math import sqrt
+
+import numpy as np
+
 from .metrics import accuracy_score
 
 
@@ -27,9 +29,9 @@ class KNNClassifier:
     def predict(self, X_predict):
         """给定待预测数据集X_predict，返回表示X_predict的结果向量"""
         assert self._X_train is not None and self._y_train is not None, \
-                "must fit before predict!"
+            "must fit before predict!"
         assert X_predict.shape[1] == self._X_train.shape[1], \
-                "the feature number of X_predict must be equal to X_train"
+            "the feature number of X_predict must be equal to X_train"
 
         y_predict = [self._predict(x) for x in X_predict]
         return np.array(y_predict)
@@ -56,5 +58,3 @@ class KNNClassifier:
 
     def __repr__(self):
         return "KNN(k=%d)" % self.k
-
-
