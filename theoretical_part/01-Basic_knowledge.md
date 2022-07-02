@@ -106,7 +106,7 @@ $$
 
 **Train Test Split**
 
-[实现](../modules/model_selections.py)
+[实现](../models/model_selection.py)
 
 即:
 
@@ -130,7 +130,7 @@ TestSet .- Test .-> Model
 
 #### <span id="ClassificationAlgorithmPerformanceEvaluation">分类(classify)算法的评价指标(Accuracy)</span>
 
-[实现](../modules/metrics.py)
+[实现](../models/metrics.py)
 
 计算模型产生的label和测试数据集已有的label之间的差异即可
 
@@ -186,7 +186,7 @@ $$
 
 ##### <span id="FeatureScaling_Standardization">均值方差归一化 standardization</span>
 
-[Scaler实现](../modules/preprocessing.py)
+[Scaler实现](../models/preprocessing.py)
 
 把所有的胡数据归一到均值为0方差为1的分布中
 

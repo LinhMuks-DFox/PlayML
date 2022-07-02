@@ -1,6 +1,6 @@
 # kNN 算法
 
-[算法实现](../modules/KNN.py)
+[算法实现](../models/KNN.py)
 
 目录：
 
