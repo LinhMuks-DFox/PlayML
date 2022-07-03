@@ -368,7 +368,7 @@ $$
 
 [实现](../models/LinearRegression.py)
 
-##### <span id="MathReprOfMLR">多元线性回归的数学表达</span>
+##### xxxxxxxxxx40 1# 上述图像的绘制代码2import matplotlib.pyplot as plt3import numpy as np4# 原函数5def J(thetas: np.ndarray):6    return 2 * thetas ** 2 - 4 * thetas + 27# 函数导数8def dj(thetas: np.ndarray):9    return 4 * thetas - 410​11# 绘制直线，point是在哪个点，k是斜率，X是取值范围12# 使用点斜式表达直线13def line(point, X, k):14    return k * (X - point[0]) + point[1]15​16# 橙，绿，红三点17dj_ls_0_point_on_J = Thetas[50], Y[50]18dj_eq_0_point_on_J = Thetas[100], Y[100]19dj_gt_0_point_on_J = Thetas[150], Y[150]20​21# 橙，绿，红三点的导数22dj_ls_0 = dj(dj_ls_0_point_on_J[0])23dj_eq_0 = dj(dj_eq_0_point_on_J[0])24dj_gt_0 = dj(dj_gt_0_point_on_J[0])25​26# 绘图27plt.plot(Thetas, Y)28plt.scatter(*dj_ls_0_point_on_J, color="orange")29plt.scatter(*dj_eq_0_point_on_J, color="g")30plt.scatter(*dj_gt_0_point_on_J, color="purple")31​32# 绘制橙，绿，红三点的切线33plt.plot(Thetas[25:75], line(dj_ls_0_point_on_J, Thetas[25:75], dj_ls_0))34plt.plot(Thetas[75:125], line(dj_eq_0_point_on_J, Thetas[75:125], dj_eq_0))35plt.plot(Thetas[125:175], line(dj_gt_0_point_on_J, Thetas[125:175], dj_gt_0))36# plt.plot(Thetas, dY, color="r")37plt.xlabel("Thetas")38plt.ylabel("Loss Function J Value")39plt.title("Gradient Descent Sample")40plt.show()Python
 
 目标依旧是，使得损失函数
 $$
