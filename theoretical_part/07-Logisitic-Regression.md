@@ -8,7 +8,7 @@
 * [损失函数的梯度](#Gradient-Of-The-Loss-Function-Of-Logistic-Regression)
 
 #### <span id="descriptions">简单的算法描述</span>
-对于逻辑回归来说，$\hat{y} = f(x)$所获取到的预测值，本质上是一个概率，因此，这个简单的表达式也可以换成：
+对于逻辑回归来说，$\hat{y} = f(x)$所获取到的预测值，本质上是一个概率$p$, 因为是预测出来的，所以也用$\hat{p}$表示，因此，这个简单的表达式也可以换成：
 $$
 \hat{p} = f(x)
 $$
@@ -17,8 +17,8 @@ $$
 \hat{p} = f(x) \\
 \hat{y} = \left \{ 
 \begin{align}
-1, &\hat{p} \ge 0.5 \\
-0, &\hat{p} \le 0.5
+1,\space &\hat{p} \ge 0.5 \\
+0,\space &\hat{p} \le 0.5
 \end{align}
 \right.
 $$
