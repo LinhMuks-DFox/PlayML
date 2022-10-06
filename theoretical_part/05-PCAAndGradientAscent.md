@@ -150,8 +150,50 @@ $$
 $$
 \begin{align}
 Var(X_{project}) 	&= \frac{1}{m} \sum^m_{i=1} (X^{(i)} \cdot w )^2 \\
-								 	&= \frac{1}{m} \sum^m_{i=1} (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n) \\
+								 	&= \frac{1}{m} \sum^m_{i=1} (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)^2 \\
 								 	&= \frac{1}{m} \sum^m_{i=1} (\sum_{j=1} ^ n X_j^{(i)} w_j)^2
 \end {align} \\
 $$
-最终，主成分分析法，变成了一个目标函数最优化的问题，如何优化捏？当然是，**梯度上升法**
+最终，主成分分析法，变成了一个目标函数最优化的问题，如何优化捏？当然是，**梯度上升法**。
+
+### 梯度上升法
+
+目标：求$w$，使得：
+$$
+f(X) = \frac{1}{m} \sum^m_{i=1} (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)^2
+$$
+最大。（这里不用$J(X)$，采用用$f(X)$，因为$J(X)$用来表示损失函数。另外，这个式子中，X是已知的，是非监督学习提供的样本信息（毕竟没有label，没有y这一项，没有y这一项的信息），w才是未知数（所以求导是对w进行求导而不是对X进行求导）
+$$
+\nabla f = 
+
+\left \{
+  \begin{matrix}
+    \frac{\partial f}{\partial w_1} \\
+    \frac{\partial f}{\partial w_2} \\
+    \frac{\partial f}{\partial w_3} \\
+    \cdots \\
+    \frac{\partial f}{\partial w_n}
+  \end{matrix}
+\right \} = 
+
+\frac{2}{m}
+\left \{
+  \begin{matrix}
+  	\sum_{i=1}^m (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)X_\textcolor{red}{1}^{(i)} \\
+  	\sum_{i=1}^m (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)X_\textcolor{red}{2}^{(i)} \\
+  	\sum_{i=1}^m (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)X_\textcolor{red}{3}^{(i)} \\
+  	\cdots \\
+  	\sum_{i=1}^m (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)X_\textcolor{red}{n}^{(i)} \\
+  \end{matrix}
+\right \} = 
+
+
+\left \{ 
+	\begin{matrix}
+		\sum_{i=1}^m (X^{(i)} w_1) \\
+		\sum_{i=1}^m (X^{(i)} w_2) \\
+		\cdots \\
+		\sum_{i=1}^m (X^{(i)} w_n)
+	\end{matrix}
+\right\}
+$$
