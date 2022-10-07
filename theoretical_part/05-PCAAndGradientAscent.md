@@ -162,7 +162,7 @@ $$
 $$
 f(X) = \frac{1}{m} \sum^m_{i=1} (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)^2
 $$
-最大。（这里不用$J(X)$，采用用$f(X)$，因为$J(X)$用来表示损失函数。另外，这个式子中，X是已知的，是非监督学习提供的样本信息（毕竟没有label，没有y这一项，没有y这一项的信息），w才是未知数（所以求导是对w进行求导而不是对X进行求导）
+最大。（这里不用$J(X)$，采用用$f(X)$，因为$J(X)$用来表示损失函数。另外，这个式子中，X是已知的，是非监督学习提供的样本信息（毕竟没有label，没有y这一项，没有y这一项的信息），$w$才是未知数（所以求导是对w进行求导而不是对X进行求导）
 $$
 \nabla f = 
 
@@ -186,8 +186,20 @@ $$
   	\sum_{i=1}^m (X_1^{(i)}w_1 + X_2^{(i)}w_2 + \cdots + X_n^{(i)}w_n)X_\textcolor{red}{n}^{(i)} \\
   \end{matrix}
 \right \} = 
-
-
+\frac{2}{m}
+\left \{ 
+	\begin{matrix}
+		\sum_{i=1}^m (X^{(i)} w_1) X_1^{(i)} \\
+		\sum_{i=1}^m (X^{(i)} w_2) X_2^{(i)}\\
+		\cdots \\
+		\sum_{i=1}^m (X^{(i)} w_n) X_n^{(i)}
+	\end{matrix}
+\right\}
+$$
+到此为止其实已经可以去编程实现了，但是，还可以进一步向量化。
+$$
+\nabla f = 
+\frac{2}{m}
 \left \{ 
 	\begin{matrix}
 		\sum_{i=1}^m (X^{(i)} w_1) \\
@@ -195,5 +207,21 @@ $$
 		\cdots \\
 		\sum_{i=1}^m (X^{(i)} w_n)
 	\end{matrix}
-\right\}
+\right\} =
+	
+\frac{2}{m} \cdot (X^{(1)} w, X^{(2)} w, \cdots, X^{(m)} w, ) \cdot
+\left [
+\begin {matrix}
+	X_1^{(1)} & X_2^{(1)} & X_3^{(1)} & \cdots & X_n^{(1)} \\
+	X_1^{(2)} & X_2^{(2)} & X_3^{(2)} & \cdots & X_n^{(1)} \\
+	X_1^{(3)} & X_2^{(3)} & X_3^{(3)} & \cdots & X_n^{(1)} \\
+	\cdots & \cdots & \cdots & \cdots & \cdots \\ 
+	X_1^{(m)} & X_2^{(m)} & X_3^{(m)} & \cdots & X_n^{(m)} \\
+\end {matrix}
+\right] = 
+\frac{2}{m} \cdot (Xw)^T \cdot X =
+$$
+后面这一大坨其实就是入的数据本身。因此：
+$$
+\nabla f = \frac{2}{m} \cdot (Xw)^T \cdot X = \frac{2}{m}\cdot X^T(Xw)
 $$
