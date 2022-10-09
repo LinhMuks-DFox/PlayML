@@ -3,9 +3,16 @@
 目录：
 
 * [梯度下降法介绍](#Introduction-Of-Gradient-Descent)
+
 * [线性回归中的梯度下降法](#Gradient-Descent-in-LR)
-* [线性回归中的梯度下降法](#Stochastic-Gradient-Descent)
+
+* [随机梯度下降法](#Stochastic-Gradient-Descent)
+
+* [梯度的调试](#Debug-for-Gradient-Descent)
+
 * [图像绘制代码](#Plot-code)
+
+    
 
 
 
@@ -356,6 +363,8 @@ $$
 经验上，a一般取5，b一般取50。
 
 这种逐渐递减的思想，是模拟一个在搜索领域非常重要的思想：模拟退火的思想。
+
+### <span id="Debug-for-Gradient-Descent">关于梯度的调试</span>
 
 
 
