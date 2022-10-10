@@ -10,7 +10,9 @@
 
 * [梯度的调试](#Debug-for-Gradient-Descent)
 
-* [图像绘制代码](#Plot-code)
+* [更多关于梯度下降法的信息](#More-About-Gradient-Descent)
+
+* [Gradient desent Sample图像plot code](#Plot-code)
 
     
 
@@ -366,9 +368,59 @@ $$
 
 ### <span id="Debug-for-Gradient-Descent">关于梯度的调试</span>
 
+获取微分，梯度的方法有很多，之前一直使用的是手动微分的方法，数学底子不好，求不出来某个损失函数的导数，不小心求错了导数的情况也时有发生。
+
+导数本质上就是曲线在某一点出的切线的斜率，根据导数的定义式：
+$$
+\lim_{h\rightarrow0}\frac{f(x + h) - f(x)}{h}
+$$
+就是$(x, y=f(x))$这一点，与$(x + h, y = f(x + h))$这一点确定的直线的斜率，其中$h$是一个无限趋近于0的量。
+
+在实际的微分应用中，可以直接给$h$带入一个值，并且套用这个公式进行计算，比如，令$h = 1e-6$，$f(x) = x ^ 2$, $x=2$
+
+带入表达式：
+$$
+\frac{f(2 + 1e-6) - f(2)}{1e-6} 	$\approx$ 4.0000010006480125
+$$
+这个数值，和$f'(x) = 2x$计算出来的值是非常接近的，考虑上浮点数的误差，这个值完全可以当作该点的导数使用。
+
+这就是所谓的，数值微分。
+
+<p style="align:center"><img src="./pngs/GradientDescent_9.jpg" style="zoom:50%; "/></p>
 
 
-### <span id="Plot-code">上述图片绘制代码</span>
+
+画成图就是这个感觉。
+
+实际的工程应用中，使用的可能不是$x$和$x+h$这两个点，会在$x$前后$\plusmn h$的位置取两个点，就是这样：
+
+<p style="align:center"><img src="./pngs/GradientDescent_10.jpeg" style="zoom:50%; "/></p>
+
+相应的，计算的式子也应该变成：
+$$
+\lim_{h\rightarrow0}\frac{f(x + h) - f(x-h)}{2h}
+$$
+前后两段$h$，所以分母是$2h$而不是$h$。
+
+在工程上，除了符号微分的方式，数值微分也是一种可行的方法，除此之外，还有很多计算导数的方法：
+
+* 自动微分（比如PyTorch，就在使用这个方法）
+* 符号微分
+* 数值微分
+* 手动微分
+
+但是不管怎么说，这都是可行的。
+
+### <span id="More-About-Gradient-Descent">更多关于梯度下降法的信息</span>
+
+* Batch Gradient Descent，批量梯度下降法，每一次都对每一个样本计算一次梯度，速度慢，但是稳定，一定可以向着损失函数递减最快的方向前进。
+* Stochastic Gradient Descent，随机梯度下降法，每次只对一个样本计算梯度，速度比较快，但是不稳定，不一定朝着递减的方向前进。
+* Mini-Batch Gradient Descent，小批量梯度下降法，是一个综合了二者优点的方法，每次不看所有的样本，也不只看一个样本，每次看$k$个样本，$k$，是小批量梯度下降法的一个超参数。
+
+
+
+
+### <span id="Plot-code">Gradient desent Sample图像plot code</span>
 
 ```Python
 # 上述图像的绘制代码
