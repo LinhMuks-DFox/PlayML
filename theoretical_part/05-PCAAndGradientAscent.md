@@ -219,7 +219,7 @@ $$
 	X_1^{(m)} & X_2^{(m)} & X_3^{(m)} & \cdots & X_n^{(m)} \\
 \end {matrix}
 \right] = 
-\frac{2}{m} \cdot (Xw)^T \cdot X =
+\frac{2}{m} \cdot (Xw)^T \cdot X
 $$
 后面这一大坨其实就是入的数据本身。因此：
 $$
