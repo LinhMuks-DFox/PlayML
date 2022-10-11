@@ -7,6 +7,7 @@
 * [逻辑回归算法的损失函数](#Loss-Function-Of-Logistic-Regression)
 * [损失函数的梯度](#Gradient-Of-The-Loss-Function-Of-Logistic-Regression)
 * [决策边界](#Decision-Boundary)
+* [在逻辑回归中使用多项式特征](#Polynomial-Feature-in-Logisitic-Regression)
 
 #### <span id="descriptions">简单的算法描述</span>
 对于逻辑回归来说，$\hat{y} = f(x)$所获取到的预测值，本质上是一个概率$p$, 因为是预测出来的，所以也用$\hat{p}$表示，因此，这个简单的表达式也可以换成：
@@ -259,4 +260,20 @@ $$
 所有的点，都带入算法，让算法给我们一个输出标记，然后把输出标记的颜色画出来
 
 这样就可以得到一个不规则的决策边界。
+
+#### <span id="Polynomial-Feature-in-Logisitic-Regression">在逻辑回归中使用多项式特征</span>
+
+在此之前，逻辑回归的内核都是一个线性回归的模型，所产生的分类的边界，也是一根直线，然而逻辑回归是不止于此的。 
+
+直线这种分类方式太简单了，可以处理的情况也太简单了，比如有时候有这样的一组数据：
+
+<p style="align:center"><img src="./pngs/Logisitic-Regression_7.png" style="zoom:50%; "/></p>
+
+用一根直线不可能完成非线性分布的样本点的分类的。
+
+
+
+这里使用一个圆形更好：
+
+<p style="align:center"><img src="./pngs/Logisitic-Regression_8.png" style="zoom:50%; "/></p>
 
