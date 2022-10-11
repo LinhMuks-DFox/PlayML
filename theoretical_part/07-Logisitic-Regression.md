@@ -6,6 +6,7 @@
 * [Sigmoid函数](#Sigmoid-Function)
 * [逻辑回归算法的损失函数](#Loss-Function-Of-Logistic-Regression)
 * [损失函数的梯度](#Gradient-Of-The-Loss-Function-Of-Logistic-Regression)
+* [决策边界](#Decision-Boundary)
 
 #### <span id="descriptions">简单的算法描述</span>
 对于逻辑回归来说，$\hat{y} = f(x)$所获取到的预测值，本质上是一个概率$p$, 因为是预测出来的，所以也用$\hat{p}$表示，因此，这个简单的表达式也可以换成：
@@ -18,7 +19,7 @@ $$
 \hat{y} = \left \{ 
 \begin{align}
 1,\space &\hat{p} \ge 0.5 \\
-0,\space &\hat{p} \le 0.5
+0,\space &\hat{p} \lt 0.5
 \end{align}
 \right.
 $$
@@ -64,7 +65,7 @@ $$
 \hat{y} = \left \{ 
 \begin{align}
 1, &\hat{p} \ge 0.5 \\
-0, &\hat{p} \le 0.5
+0, &\hat{p} \lt 0.5
 \end{align}
 \right.
 $$
@@ -83,7 +84,7 @@ $$
 \hat{y} = \left \{ 
 \begin{align}
 1, &\hat{p} \ge 0.5 \\
-0, &\hat{p} \le 0.5
+0, &\hat{p} \lt 0.5
 \end{align}
 \right.
 $$
@@ -198,4 +199,64 @@ $$
 （推导过程先略过）
 
 
+
+
+
+#### <span id="Decision-Boundary">决策边界</span>
+
+在逻辑回归的概率的计算式：
+$$
+\hat{p} = \sigma(\theta^T \cdot x_b)
+$$
+中：
+
+* 当传入sigmoid中的数值$\theta^T\cdot x_b$，大于等于0时，sigmoid函数输出的值大于等于0.5，$\hat{y}$为1
+* 当传入sigmoid中的数值$\theta^T\cdot x_b$，小于0时，sigmoid函数输出的值小于等于0.5，$\hat{y}$为0
+
+$$
+\hat{p} = f(x) \\
+\hat{y} = \left \{ 
+\begin{align}
+1,\space &\hat{p} \ge 0.5， \theta^T\cdot x_b \ge 0\\
+0,\space &\hat{p} \lt 0.5， \theta^T\cdot x_b \lt 0
+\end{align}
+\right.
+$$
+
+换句话说，将某一个样本分类为1还是0的边界，是$\theta^T\cdot x_b = 0$，这个位置，就是所谓的**决策边界**。
+
+话又说回来，$\theta^T\cdot x_b$是两个向量进行点乘，其结果也代表一条直线。比如，如果$X$有两特征，那么$\theta^T\cdot x_b = 0$又可以写成：
+$$
+\theta_0 + \theta_1x_1 + \theta_2 x_2 = 0
+$$
+其中$x_0$是人为添加的一列1，1乘以$\theta_0$还是$\theta_0$，所以忽略$x_0$。
+
+这样的一个式子，是一个直线的表达式。可以想象成$x_1$, $x_2$是两个轴，样本的分类是样本点的不同颜色。
+
+若，由表达式$\theta_0 + \theta_1x_1 + \theta_2 x_2 = 0$所确定的直线，在二维平面中，$x_2$是直线方程$y = k x + b$中的$y$的话，那么，这个式子可以简单的移向成这样：
+$$
+x_2 = \frac{-\theta_0 - \theta_1x_1}{\theta_2}
+$$
+之所以这样写，是为了在程序中绘制出这条直线，方便直观的观察，决策边界在哪里。【这一部分有代码，参考notebooks文件夹里chp7的内容】
+
+##### 关于不规则决策边界的绘制方法
+
+直线形式的决策边界的绘制比较简单：只要一个方程就可以了
+
+但是很多时候，决策边界可能是曲线的，甚至难以使用“方程”来表达，对于这种时候，有一个不太聪明的办法，可以解决问题：
+
+比如现在特征还是两个，分类还是两种，我们可以直接把平面内的点进行遍历（步长任意），比如平面的范围是$ 0 \le x \le 10, 0 \le y \le 10$
+
+步长取1，那么就可以把：
+
+$$
+(0, 1), (0, 2), (0, 3)\cdots (0, 10) \\
+(1, 1), (0, 2), (0, 3)\cdots (1, 10) \\
+\cdots \\
+(10, 1), (10, 2), (10, 3)\cdots (10, 10) \\
+$$
+
+所有的点，都带入算法，让算法给我们一个输出标记，然后把输出标记的颜色画出来
+
+这样就可以得到一个不规则的决策边界。
 
