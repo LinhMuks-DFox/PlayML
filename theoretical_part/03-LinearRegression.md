@@ -357,11 +357,14 @@ $$
 然后因式分解，上半部分其实就是$(a-b)(c-d)$的形式，下半部分合并同类项，就变成了 $x_i^2 + \bar{x}^2-2\bar{x}x_i$，也就是完全平方公式的形态，也就可以化简为：
 
 $$
-a = \frac 
+\begin{align}
+a & = \frac 
 		{\sum^m_{i=1} (x_i - \bar{x})(y_i - \bar{y})} 
 		{\sum^m_{i=1} (x_i - \bar{x}) ^ 2} \\
 		
-b = \bar{y} - a\bar{x}
+b &= \bar{y} - a\bar{x}
+
+\end{align}
 $$
 
 #### <span id="MultipleLinearRegression">多元线性回归（Multiple Linear Regression）</span>
