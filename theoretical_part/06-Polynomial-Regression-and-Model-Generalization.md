@@ -26,7 +26,9 @@ $$
 
 给原有的样本添加了一些新的特征，这些特征是原来样本的多项式项，比如$x^2$，就是对$x$进行平方，增加了这些特征之后，就可以使用线性回归的思路更好的拟合原来的数据，但是究其本质，是对原来的特征而言，这种非线性的曲线。
 
- 参考[notebook](#../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/01-Polynomial-Regression.ipynb)
+参考[代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/01-Polynomial-Regression.ipynb)
+
+补充，[Pipeline的知识点](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/02-Polynomial-Regression-and-Pipeline.ipynb)
 
 通过代码演示，可以看到多项式回归并没有什么新的机器学习的思路，只是添加了更多次数的项，作为新的特征。这个和PCA算法对数据进行降为的操作是相反的。
 
@@ -34,5 +36,48 @@ $$
 
 多项式回归固然好用，但是过度的使用，就很容易造成过拟合，使用不当也会造成欠拟合。
 
-==这里将使用一个实际的例子来展示什么叫做过拟合和欠拟合，参考本节代码==
+==这里将使用一个实际的例子来展示什么叫做过拟合和欠拟合，参考本节[代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/03-Overfit-and-Underfit.ipynb)==
 
+通过例子可以看出，degree的数值越大，拟合的就越好，道理很简单，这么多样本点，总能找到一根曲线，这根曲线可以把所有的样本点都串起来，使得整体的MSE最小，甚至为0。
+
+从degree=2到10到100，MSE一直在降低。
+
+虽然从MSE的角度来看越来越小，但是，degree越高的曲线，越能反应样本走势吗？
+
+答案是否定的，用一个非常高维的样本，产生了一根曲线，MSE确实很小，但是得到的曲线并不是想要的样子，别忘了最开始生产数据的时候，只是做了个2次曲线分布的样本。**为了拟合所有的样本点，曲线变得太过复杂了**，这就是所谓的**过拟合（Overfitting）**
+
+例子最开始用的直线也没有很好的拟合数据样本，他的错误在于degree太低。不是太复杂，而是太简单，这就叫做**欠拟合（Underfitting）**
+
+应用中，最常见的其实是过拟合。工作中主要解决的问题也就是这个问题。
+
+比如例子中的过拟合的曲线：
+
+<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_1.png" style="zoom:25%; "/></p>
+
+红色的曲线是模型，蓝色的样本数据，使用这个过拟合的模型预测出一个结果，作为紫色的点。显然，紫色点并不在样本的分布趋势上。
+
+这个预测值很有可能是错误的。换言之：模型拟合样本做的很好，但是对于新的样本来说，精确度就不足了。也可以说，**这个模型的泛化能力很弱，或者说由此及彼的能力很差**。训练模型的目的不在于拟合了多少原先的样本，在于拟合后，对于新来的数据能有多好的表现。
+
+需要的是有泛化能力的模型。训练数据集和测试数据集的分离的做法，就很好的帮助我们发现模型是否有过拟合现象。
+
+[回到代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/04-Why-Train-Test-Split.ipynb)
+
+可以看到，通过这种方式，MSE的差别是越来越大的。有效的帮助我们发现了Overfit的情况。
+
+代码中所实验的，是模型的复杂度，degree越高，模型越复杂。
+
+通常来说，机器学习的算法都存在这样关系：
+
+<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_2.png" style="zoom:25%; "/></p>
+
+从欠拟合到合适到过拟合，不同的算法所获取的这个图可能是不一样的，但是整体的趋势是这样的。
+
+总结来说
+
+* 欠拟合，算法所训练的模型不能完整的表述数据关系，寻找到的特征可能太朴素。
+* 过拟合，算法所训练的模型过多的表达了数据间的噪音关系，学习到的特征却又太细节了。
+* 通过训练，测试分离的方法，可以帮助发现过拟合。
+
+我们需要找到就是泛化能力最好的那里。
+
+网格搜索的策略，使用不同参数的组合训练出模型，然后找到泛化能力最强的那个，也是这么个道理。
