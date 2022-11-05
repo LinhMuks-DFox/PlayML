@@ -343,4 +343,4 @@ $$
 
 模型正则化的方式有很多，像是上面这张加入了屁股后面这一项的方式，通常叫做**岭回归 Ridge Regression**，山岭的意思。
 
-[岭回归代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/08-Ridge-Regreesion.ipynb)
+[岭回归代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/08-Riindge-Regreesion.ipynb)
