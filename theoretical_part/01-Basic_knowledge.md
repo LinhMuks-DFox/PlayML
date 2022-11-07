@@ -136,6 +136,8 @@ TestSet .- Test .-> Model
 
 比如180个有179个分类准确，则，其分类准确度为 $179 / 180$
 
+当然还有其他的，比如精准率，召回率，还有混淆矩阵，这一部分的内容放在[第八章](./08-Classification-Performance-Measures.md)
+
 #### <span id="HyperParameter">超参数</span>
 
 * 超参数: 在算法运行前需要决定的参数
