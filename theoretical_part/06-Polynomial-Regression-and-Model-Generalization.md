@@ -344,3 +344,122 @@ $$
 模型正则化的方式有很多，像是上面这张加入了屁股后面这一项的方式，通常叫做**岭回归 Ridge Regression**，山岭的意思。
 
 [岭回归代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/08-Ridge-Regreesion.ipynb)
+
+#### LASSO Regularization
+
+LASSO Regression 的全称是这个：Least Absolute Shrinkage and Selection Operator Regression。
+
+注意到其中的Absolute了吗？没错，绝对值。
+
+当然还有另外一个关键词，就是**Selection Operator**，选择运算，一个回归方法和选择运算有什么关系呢？后文将会阐述，这里先提示一下，记住这个LASSO回归具有一定的Selection功能。
+
+在岭回归中，我们给目标函数添加了
+$$
+\alpha \frac{1}{2}\sum_{i=1}^n\theta_i^2
+$$
+这样一个带有平方的项，来控制系数的大小，从而对模型进行正则化，LASSO中，添加的是含有绝对值的项目：
+$$
+\alpha\sum_{i=1}^n |\theta_i|
+$$
+* 其中，alpha依然控制优化过程中，系数这一项的优化占比
+
+对于线性回归算法的目标函数来说：
+
+* 原始版本：
+  $$
+  J(\theta) = MSE(y, \hat{y}; \theta)
+  $$
+* 岭回归：
+  $$
+  J(\theta) = MSE(y, \hat{y}; \theta) + \alpha \frac{1}{2}\sum_{i=1}^n\theta_i^2
+  $$
+* LASSO：
+  $$
+  J(\theta) = MSE(y, \hat{y}; \theta) + \alpha\sum_{i=1}^n |\theta_i|
+  $$
+  
+
+具体与岭回归的不同，[参见代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/09-LASSO.ipynb)
+
+<table><tr>
+ <td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_7.png" style="zoom:70%; " border=0/></td>
+<td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_8.png" style="zoom:70%; " border=0/></td>
+</tr></table>
+
+比较Ridge与LASSO。
+
+* 使用Ridge很难让模型变成一根直线，总是能弯曲一些，意味着有很多X(aka 特征），前面依然是有系数的
+* LAASO获得曲线的弯曲程度更低，更倾向于变成一根直线，意味着有很多特征前面的系数变成0
+
+LASSO趋向于使得一部分特征的系数值变为0，所以可以作为特征选择用。所以为什么有一个Selection Operator。
+
+经过LASSO以后，一部分特征前面的系数变成0，意味着LASSO过程中，这一部分特征被认为是没有用的。反之就是有用的。
+
+LASSO与PCA是有区别的，PCA是特征转换，降维后的每一个新的维度，其实都包含了原有特征的信息（只是占比不同），但是，降维后的新的维度，丢失了原有维度的语义信息。，LASSO是一个特征选择，通LASSO，**一些特征没有了**。
+
+比如一个包含温度和大小的特征，降为一维，LASSO以后，就留下了温度或者大小某一个维度。但是PCA以后，留下的这个维度，既不是温度，也不是大小，是结合这二者的维度。
+
+
+
+特征选择是怎么进行的呢？
+
+先看岭回归中添加的一项：
+$$
+\alpha \frac{1}{2}\sum_{i=1}^n\theta_i^2
+$$
+当alpha趋于无穷时（只看后面的这一项），theta是逐渐变为0的，但是怎么变为0的，是有一个过程的，按照梯度下降法的角度来看，这个被添加的项的梯度是：
+$$
+\nabla = \alpha \left \{ 
+\begin{matrix}
+	\theta_1 \\
+	\theta_2 \\
+	\theta_3 \\
+	\cdots \\
+	\theta_n \\
+\end{matrix}
+\right\}
+$$
+每一个式子对每一个$\theta_i$求导，平方求导出来的2与前一项的二分之一抵消，系数就剩下alpha。但是要注意，这里面的每一个$\theta_i$，都是有值的。
+
+所以假设有一个随机的初始点，按照这样的每一个维度都有值的梯度进行下降的话，会产生一个连续的轨迹（因为梯地下降的过程中，每一步$\theta$都是有值的）：
+
+<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_9.png" style="zoom:25%; "/></p>
+
+对于LASSO来说，若使得alpha趋近于无穷时（aka后一项的优化权最大的时候），但是这一项有个绝对值，不是处处可导的，但是可以使用sign函数来刻画：
+$$
+\nabla = \alpha
+\left \{
+    \begin{matrix}
+		sign(\theta_0) \\ 
+		sign(\theta_1) \\ 
+		\cdots \\ 
+		sign(\theta_n)
+    \end{matrix}
+\right \}
+$$
+其中，sign函数为：
+$$
+sign(x) = \left \{
+  \begin{align}
+    1, x > 0 \\
+    0, x = 0 \\
+    -1, x < 0
+  \end{align}
+\right.
+$$
+不考虑前面的MSE的时候，它的梯度就是alpha乘以一个向量，这个向量就只有-1，0，1这三种，梯度下降的时候，从初始点出发，会绘制出这样的路径：
+
+<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_10.png" style="zoom:50%; "/></p>
+
+不能绘制出一条曲线。在这个过程中，他就会走到某些轴的0点，使得最终的结果中包含了一堆0。
+
+这也解释了为什么岭回归叫做岭回归，因为它的过程类似于爬山，不断的找坡缓的地方一点一点的下来，翻山越岭。
+
+LASSO可以作为特征选择，但是可能出毛病：把一些有用的特征也变成0，所以从计算的准确度来说，LASSO不如岭回归。
+
+另外一方面，如果系数特别大，比如degree特别大的时候，LASSO可以迅速的使系数变小。
+
+
+
+#### LASSO，岭回归的总结，以及弹性网：
+
