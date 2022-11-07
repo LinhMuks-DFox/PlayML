@@ -34,8 +34,11 @@ Can Also use NumPy (Only in 2 dim!):
 """
 import numpy as np
 
-user_matrix = np.linspace(0, 100, 10).reshape((2, 5))
-user_paste_to_clip_board = True     # True / False
+user_matrix = [
+    [f"sign(\\theta_{i})"]
+    for i in range(4)
+]
+user_paste_to_clip_board = False     # True / False
 user_bracket = "Big"                # "Big", "Mid", "Small"
 user_begin_tag = "matrix"           # "matrix" / "align"
 user_preview = False 				# True / False
