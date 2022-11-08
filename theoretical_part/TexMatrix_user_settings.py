@@ -22,7 +22,7 @@ To create 0 matrix in 10 row, 11 col:
 
 To create a 10 colum, 7 row algebra Matrix:
     [
-        [f"X_{j}^{i}" for i in range(10)] 
+        [f"X_{j}^{i}" for i in range(10)]
             for j in range(7)
     ]
 
@@ -32,13 +32,15 @@ Can Also use NumPy (Only in 2 dim!):
     np.linspace(0, 100, 10, shape=(2, 5))
     ...
 """
-import numpy as np
 
 user_matrix = [
-    [f"sign(\\theta_{i})"]
-    for i in range(4)
+    [f"sign(\\theta_{i})"]for i in range(4)
+] + [
+    ["\\cdots"],
+    ["\\theta_n"]
 ]
-user_paste_to_clip_board = False     # True / False
-user_bracket = "Big"                # "Big", "Mid", "Small"
+
+user_paste_to_clip_board = True     # True / False
+# "Big", "Mid", "Small", "Big-No-Right"
+user_bracket = "Big-No-Right"
 user_begin_tag = "matrix"           # "matrix" / "align"
-user_preview = False 				# True / False
