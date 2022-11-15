@@ -11,6 +11,7 @@
 * [决策边界](#Decision-Boundary)
 * [在逻辑回归中使用多项式特征](#Polynomial-Feature-in-Logisitic-Regression)
 * [在逻辑回归中使用模型正则化](#Model-Generalization-in-Logisitic-Regression)
+* [OvR and OvO](#OvR and OvO)
 
 #### <span id="descriptions">简单的算法描述</span>
 
@@ -321,4 +322,30 @@ C越大的时候，优化过程中，就更加集中火力的去优化损失函�
 
 **在模型非常复杂（SVM之流）的时候，最好（或者是一定）加入正则化的项**
 
-[代码实现/使用](../notebooks/chp7-Logistic-Regression/04-Logistic-Regression-in-sklearn.ipynb)
+[代码实现/使用](../notebooks/chp7-Logistic-Regression/ 04-Logistic-Regression-in-sklearn.ipynb)
+
+#### <span id="OvR and OvO">OvR 与OvO</span>
+
+逻辑回归只能用于解决2分类问题，有没有什么办法可以用它解决多分类问题呢？有滴！但是这个方法不仅可以应用在逻辑回归上，是近乎可以用应用在所有的2分类问题上：
+
+##### OvR （One vs Rest）
+
+1对剩余的所有，也有叫做One vs All，都一样。
+
+比如有${A, B, C, D}$四个类。
+
+如果尝试对$A$类别使用2分类方，可以设计一个算法，这个算法输出为：【A 与 其他】。
+
+这样就可以把4分类转换成2分类，只要多次进行2分类，对于4分类，那就进行4次2分类。有n个类别，就进行n次二分类，选择分类得分最高的那个。
+
+处理一个2分类问题的时间是T的话，进行n分类所需要的时间复杂度就是O(n)。
+
+##### OvO
+
+One v One。依然是4个类别，但是每次挑出两个类别进行2分类，比如【一个样本点是A还是B】，而不是【这个样本点是A还是其他】，有4个类别的话，就可以形成6个两两的对（组合），形成6个2分类问题。
+
+对于一个新的样本，然后让6个2分类模型进行分类，然后进行投票，看在哪个分类的票数高，那他就是哪个分类的。
+
+拓展下来，n个类别就得进行C(n, 2)次分类，选择赢数最高的分类。10个类别，就得进行45次2分类，很显然OvO比OvR的时间消耗更多。虽然耗时更多，但是分类更准确。
+
+[代码实现/使用](../notebooks/chp7-Logistic-Regression/ 05-OvR-OvO.ipynb)
