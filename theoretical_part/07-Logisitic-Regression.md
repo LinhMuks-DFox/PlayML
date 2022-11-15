@@ -10,6 +10,7 @@
 * [损失函数的梯度](#Gradient-Of-The-Loss-Function-Of-Logistic-Regression)
 * [决策边界](#Decision-Boundary)
 * [在逻辑回归中使用多项式特征](#Polynomial-Feature-in-Logisitic-Regression)
+* [在逻辑回归中使用模型正则化](#Model-Generalization-in-Logisitic-Regression)
 
 #### <span id="descriptions">简单的算法描述</span>
 
@@ -266,6 +267,8 @@ $$
 
 ####  <span id="Polynomial-Feature-in-Logisitic-Regression">在逻辑回归中使用多项式特征</span>
 
+[代码实现/使用](../notebooks/chp7-Logistic-Regression/03-Polynomial-Feature-in-Logistic-Regression.ipynb)
+
 在此之前，逻辑回归的内核都是一个线性回归的模型，所产生的分类的边界，也是一根直线，然而逻辑回归是不止于此的。 
 
 直线这种分类方式太简单了，可以处理的情况也太简单了，比如有时候有这样的一组数据：
@@ -301,4 +304,21 @@ $$
 
 可以使用从线性回归转换到多项式回归的方法，将线性的逻辑回归转换成非线性的逻辑回归。
 
-[代码实现]()
+#### <span id="Model-Generalization-in-Logisitic-Regression">在逻辑回归中使用模型正则化</span>
+
+如同前一章所说的，多项式的引入，很容易带来一个问题：过拟合。为了解决过拟合，前一章使用了很长的篇幅来阐述正则化的方法。这里就不过多的描述了。但是这里做一些小的修改：
+
+岭回归中，我们给损失函数加入了一个L2项，LASSO中则是人为的加入了L1项，并且使用一个超参数$\alpha$来控制MSE损失和添加项的优化程度，这里我们反过来：
+
+在损失函数前面加一个超参数$C$，并删除L1/L2前面的$\alpha$：
+
+* $C \cdot J(\theta)+ L1$
+* $C \cdot J(\theta)+ L2$
+
+C越大的时候，优化过程中，就更加集中火力的去优化损失函数，反之则集中优化L1/L2，这个系数放在谁前面都差不多。在scikit-learn中，使用这种方式比较多。因为这个正则化是无论如何都得进行的，不能为1或者0，所以干脆把这个控制用的超参数丢到前面去。
+
+这也在提醒我们：
+
+**在模型非常复杂（SVM之流）的时候，最好（或者是一定）加入正则化的项**
+
+[代码实现/使用](../notebooks/chp7-Logistic-Regression/04-Logistic-Regression-in-sklearn.ipynb)
