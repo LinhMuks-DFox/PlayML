@@ -1,3 +1,5 @@
+
+
 # 逻辑回归算法
 
 本章节目录：
@@ -10,6 +12,9 @@
 * [在逻辑回归中使用多项式特征](#Polynomial-Feature-in-Logisitic-Regression)
 
 #### <span id="descriptions">简单的算法描述</span>
+
+[代码实现/使用](../notebooks/chp7-Logistic-Regression/01-Implement-Logistic-Regression.ipynb)
+
 对于逻辑回归来说，$\hat{y} = f(x)$所获取到的预测值，本质上是一个概率$p$, 因为是预测出来的，所以也用$\hat{p}$表示，因此，这个简单的表达式也可以换成：
 $$
 \hat{p} = f(x)
@@ -199,11 +204,9 @@ $$
 $$
 （推导过程先略过）
 
-
-
-
-
 #### <span id="Decision-Boundary">决策边界</span>
+
+[代码实现](../notebooks/chp7-Logistic-Regression/02-Decision-Boundry.ipynb)
 
 在逻辑回归的概率的计算式：
 $$
@@ -261,7 +264,7 @@ $$
 
 这样就可以得到一个不规则的决策边界。
 
-#### <span id="Polynomial-Feature-in-Logisitic-Regression">在逻辑回归中使用多项式特征</span>
+####  <span id="Polynomial-Feature-in-Logisitic-Regression">在逻辑回归中使用多项式特征</span>
 
 在此之前，逻辑回归的内核都是一个线性回归的模型，所产生的分类的边界，也是一根直线，然而逻辑回归是不止于此的。 
 
@@ -297,3 +300,5 @@ $$
 * $x_1$, $x_2$来说，就是个曲线的决策边界
 
 可以使用从线性回归转换到多项式回归的方法，将线性的逻辑回归转换成非线性的逻辑回归。
+
+[代码实现]()
