@@ -1,8 +1,15 @@
-# Principal component analysis and Gradient Ascent
+# 主成分分析以及梯度上升法
 
 主成分分析以及梯度上升法
 
-### 主成分分析
+目录：
+
+* [什么是主成分分析](#About-PCA)
+* [使用梯度上升法求解主成分分析](#Grandient-Ascent-in-PCA)
+* [前N个主成分](#first-n-C)
+* [数据映射](#data-project)
+
+#### <span id="About-PCA">主成分分析</span>
 
 这是一个：
 
@@ -11,9 +18,7 @@
 * 通过降维，找到更加便于人类理解的特征
 * 用于可视化，用于去噪
 
-的算法。
-
-#### 原理
+的算法。原理如下：
 
 如图，有一组数据：
 
@@ -156,7 +161,9 @@ Var(X_{project}) 	&= \frac{1}{m} \sum^m_{i=1} (X^{(i)} \cdot w )^2 \\
 $$
 最终，主成分分析法，变成了一个目标函数最优化的问题，如何优化捏？当然是，**梯度上升法**。
 
-### 使用梯度上升法解决PCA
+#### <span id="Grandient-Ascent-in-PCA">使用梯度上升法解决PCA</span>
+
+[实现](../notebooks/chp5-PCA-And-Gradient-Ascent/01-Implement-PAC-in-Basic-Gradient-Ascent.ipynb)
 
 目标：求$w$，使得：
 $$
@@ -225,3 +232,108 @@ $$
 $$
 \nabla f = \frac{2}{m} \cdot (Xw)^T \cdot X = \frac{2}{m}\cdot X^T(Xw)
 $$
+#### <span id="first-n-C">求数据的前N个主成分
+
+[实现](../notebooks/chp5-PCA-And-Gradient-Ascent/02-Getting-First-N-Components.ipynb)
+
+假设特征有N个维度，用$R_1, R2, \cdots, R_N$表示，到此为止，我们将$R_1, R_2$融合成了一个特征，姑且称之为$R_{pj1}$，如何将这个融合后的主成分与$R_3$融合呢？然后在将与$R_3$融合后的特征在于$R_4$融合，一直到$R_N$
+
+这就是这一节的目的。
+
+做法很简单，由于已经求出了第一主成分，将数据在第一主成分上的分量去掉。
+
+回到这个图：
+
+<p style="align:center"><img src="./pngs/PCAAndGradientAscent_08.jpeg" style="zoom:50%; "/></p>
+
+现在我们已经求出了$w$，若我们使用$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$点乘$w$，就可以得到$||X_{project}^{(i)}||$，也就是投射后的向量的模，再在使用这个模去点乘$w$，就能得到这个向量本身$X_{project}^{(i)}= (X_{pr1}^{(i)}, X_{pr2}^{(i)})$(模就是向量的大小，$w$是它的方向)。
+
+我们要把$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$这个样本，在$X_{project}^{(i)}$这个方向上的分量去掉，怎么做呢？
+
+直接用$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$减去$X_{project}^{(i)}$。
+
+相减之后的几何意义，就是把$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$这个样本，映射到了一个与$X_{project}^{(i)}$相垂直的轴上，这个轴，就相当于是把数据在第一主成分上的分量去掉，如果管这个垂直的轴叫做$X^{(i)} = (X_1'^{(i)}, X_2'^{(i)})$的话，它的表达式为：
+$$
+X'^{(i)} = X^{(i)} - X^{(i)}_{project}
+$$
+几何上的表示就是：
+
+<p style="align:center"><img src="./pngs/PCAAndGradientAscent_09.png" style="zoom:25%; "/></p>
+
+求出第一主成分以后，将数据在第一个主成分上的分量去掉，在新的数据上求第一主成分，新的数据上求出来的第一主成分就是最原始的数据的第二主成分，再往后就是第三，第四，第n主成分，如此循环。
+
+#### <span id="data-project">高维数据向低维数据映射</span>
+
+[实现](../notebooks/chp5-PCA-And-Gradient-Ascent/03-Data-Projection.ipynb)
+
+到此为止，已经阐述了如何求取出合成数据维度的方法，但是数据本身依然是存在于高维空间，本节的就将阐述如何使用求取的主成分对数据进行降维操作。
+
+$X$如果是数据集($m$行$n$列)，$W$有（$k$行$n$列），$k$表示求取出的前$k$个主成分，$n$代表每个主成分的坐标轴应该有$n$个元素。 
+
+主成分分析本质就是从一个坐标系转换到另一个坐标系，原先的坐标系有$n$个维度的话，转换后的坐标系也有$n$个维度，只不过对于转换的坐标系，我们取出它前$k$个，说这$k$个方向更加重要，于是就形成了$W$这个矩阵，数据降维就是将样本矩阵$X$这个$n$维数据转换成$k$维数据。
+
+
+$$
+X = \left \{
+    \begin{matrix}
+		X_1^{(1)} & X_2^{(1)} & \cdots & X_n^{(1)} \\ 
+		X_1^{(2)} & X_2^{(2)} & \cdots & X_n^{(2)} \\ 
+		\cdots & \cdots & \cdots & \cdots \\
+		X_1^{(m)} & X_2^{(m)} & \cdots & X_n^{(m)}
+    \end{matrix}
+\right \}
+ \\
+W = \left \{
+    \begin{matrix}
+		W_1^{(1)} & W_1^{(1)} & \cdots& W_n^{(1)} \\ 
+		W_1^{(2)} & W_2^{(2)} & \cdots& W_n^{(2)} \\ 
+		\cdots & \cdots & \cdots & \cdots \\
+		W_1^{(k)} & W_2^{(k)} & \cdots& W_n^{(k)}
+    \end{matrix}
+\right \}
+$$
+回顾之前所说的:
+
+*对于一个样本$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$，点乘$w$，就可以得到$||X_{project}^{(i)}||$，也就是投射后的向量的模，再在使用这个模去点乘$w$，就能得到这个向量本身$X_{project}^{(i)}= (X_{pr1}^{(i)}, X_{pr2}^{(i)})$。*
+
+推广，如果将这一个样本，分别点乘这$k$个$w$，就能得到这一个样本在$k$个$w$上的映射的大小。这$k$个元素和在一起就能表示这一个样本映射到$k$个轴的坐标系上的相应的样本的大小。
+
+$k$是比$n$小的，如此这般就完成这一个样本向低维数据的映射，以此类推，对所有的样本进行这样的过程。
+
+总结来说，就是进行了一个矩阵的乘法：
+$$
+X_{k} = X \cdot W_k^T
+$$
+这里是$W_k$的转制。$X$是一个$m \times n$的矩阵，$W_k^T$是一个$n \times k$的矩阵。进行运算后, dot(mn, nk) = mk的矩阵。
+
+一旦获取了$X_{k}$：
+$$
+X_k = \left \{
+    \begin{matrix}
+		X_1^{(1)} & X_2^{(1)} & \cdots & X_n^{(1)} \\ 
+		X_1^{(2)} & X_2^{(2)} & \cdots & X_n^{(2)} \\ 
+		\cdots & \cdots & \cdots & \cdots \\
+		X_1^{(m)} & X_2^{(m)} & \cdots & X_k^{(m)}
+    \end{matrix}
+\right \}
+ \\
+W = \left \{
+    \begin{matrix}
+		W_1^{(1)} & W_1^{(1)} & \cdots& W_n^{(1)} \\ 
+		W_1^{(2)} & W_2^{(2)} & \cdots& W_n^{(2)} \\ 
+		\cdots & \cdots & \cdots & \cdots \\
+		W_1^{(k)} & W_2^{(k)} & \cdots& W_n^{(k)}
+    \end{matrix}
+\right \}
+$$
+通过这样的运算：
+$$
+X_k \cdot W_k
+$$
+是可以恢复数据的，但是恢复后的数据和$X$不是同一个，所以使用$X_m$来描述：
+$$
+X_m = X_k \cdot W_k
+$$
+**这里不转制了**。$X_k$是一个$m \times k$的矩阵，$W_k^T$是一个$k \times n$的矩阵。进行运算后, dot(mk, kn) = mn的矩阵。
+
+$X_m$与$X$的区别，参考代码部分。

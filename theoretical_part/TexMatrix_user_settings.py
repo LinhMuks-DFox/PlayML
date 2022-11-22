@@ -33,9 +33,9 @@ Can Also use NumPy (Only in 2 dim!):
     ...
 """
 
-user_matrix = [
-        [f"\\sum_{{i=1}}^m (X_b^{{(i)}} - y^{{(i)}}) \cdot X_{i}^{{(i)}}"] 
-        for i in [1, 2, "n"]
+user_matrix =[
+    [f"X_{i}^{{({j})}}" for i in [1, 2, "n"]]
+    for j in [1, 2, "m"]
 ]
 
 user_paste_to_clip_board = True     # True / False
