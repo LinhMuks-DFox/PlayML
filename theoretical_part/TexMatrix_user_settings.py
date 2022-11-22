@@ -34,13 +34,11 @@ Can Also use NumPy (Only in 2 dim!):
 """
 
 user_matrix = [
-    [f"sign(\\theta_{i})"]for i in range(4)
-] + [
-    ["\\cdots"],
-    ["\\theta_n"]
+        [f"\\sum_{{i=1}}^m (X_b^{{(i)}} - y^{{(i)}}) \cdot X_{i}^{{(i)}}"] 
+        for i in [1, 2, "n"]
 ]
 
 user_paste_to_clip_board = True     # True / False
 # "Big", "Mid", "Small", "Big-No-Right"
-user_bracket = "Big-No-Right"
+user_bracket = "Big"
 user_begin_tag = "matrix"           # "matrix" / "align"

@@ -204,7 +204,190 @@ $$
 \right \}
 = \frac{1}{m} \cdot X_b^T \cdot (\sigma(X_b\theta) - y)
 $$
-（推导过程先略过）
+推导过程：
+
+先回归目标函数：
+$$
+J(\theta) = -\frac{1}{m} \sum_{i = 1} ^ {m}
+	y^{(i)} \log{(\sigma(X_b^{(i)} \theta))} + (1 - y^{(i)}) \log{(1 - \sigma(X_b^{(i)} \theta) } \\
+$$
+其对应的梯度表达式为：
+$$
+\nabla J(\theta) = 
+\left \{
+    \begin{matrix}
+		\frac{\partial J(\theta)}{\partial \theta_{0}} \\ 
+		\frac{\partial J(\theta)}{\partial \theta_{1}} \\ 
+		\cdots \\
+		\frac{\partial J(\theta)}{\partial \theta_{n}}
+    \end{matrix}
+\right \}
+\tag{损失函数的梯度}
+$$
+其中，最难处理的应该是sigmoid函数，先从这里下手，先对他进行变形：
+$$
+\sigma(t) = \frac{1}{1+e^{-t}} = (1 + e^{-t})^{-1} \tag{sigmoid函数}
+$$
+根据求导法则，sigmoid函数的导数为：
+$$
+\sigma'(t) = -(1+e^{-t})^{-2} \cdot e ^{-t} \cdot(-1) = (1+e^{-t})^{-2} \cdot e^{-t} 
+\tag{sigmoid函数的导数}
+$$
+ok，现在对$\log{\sigma(\cdots)}$下手：
+$$
+\begin{align}
+  (\log{\sigma(t)})' 
+  &= \frac{1}{\sigma(t)} \cdot \sigma(t)' \tag{log-1}\\ 
+  &= \frac{1}{\sigma(t)}(1+e^{-t})^{-2} \cdot e^{-t} \tag{log-2} \\ 
+  &= \frac{1}{(1+e^{-t})^{-1}}\cdot (1+e^{-t})^{-2} \cdot e^{-t} \tag{log-3} \\
+  &= (1+e^{-t})^{-1} \cdot e^{-t} \tag{log-4} \\
+  &= \frac {e^{-t}}{1+e^{-t}} \tag{log-5} \\
+  &= \frac {1+e^{-t}-1}{1+e^{-t}}\tag{log-6} \\
+  &= 1 - \frac {1}{1+e^{-t}}\tag{log-7} \\
+  &= 1 - \sigma(t)\tag{log-8}
+\end{align}
+$$
+
+* log-1 代入sigmoid函数的导数，得到log-2
+* log-2代入sigmoid函数本身，得到log-3
+* log-5的分子+1再-1得到log-6
+* log-6化简后得到log-7
+* log-7就是$\sigma(t)$函数本身，替换以后，得到log-8，所以$(\log{\sigma(t)})'$的表达式最终为log-8
+
+回到损失函数本身，其有两个部分，由加号链接，我们看前半部分：
+$$
+\frac{\mathrm{d}\left( y^{(i)} \log \sigma(X_b^{(i)} \theta \right)}
+{\mathrm{d}\theta_j} = 
+y^{(i)} (1 - \sigma(X_b^{(i)} \theta)) \cdot X_j^{(i)} \tag{前半部分的导数}
+$$
+其中：
+
+* $y^{(i)}$是一个常数，所以挪到最前面
+* log的部分则代入等式log-8中，代换一下就得到了。
+* 因为是对$\theta_j$求导，这前面是有个系数的，这个系数是$X$矩阵的第$i$行，的第$j$列，写在最后面
+
+这就是损失函数前半部分的导数。
+
+进入后半部分的求导之前，看一下$log{(1-\sigma (t))}$的导数：
+$$
+\begin{align}
+	(\log{(1-\sigma (t))})' &= \frac{1}{1-\sigma(t)} \cdot(-1) \cdot \sigma(t)'\\
+	&= -\frac{1}{1-\sigma(t)} \cdot(1+e^{-t})^{-2} \cdot e^{-t}  \tag{log2-1}\\
+\end{align}
+$$
+
+* 使用链式法则
+
+尝试化简这个式子，其中：
+$$
+-\frac{1}{1-\sigma(t)} = \frac{1} {
+	\frac{1+e^{-t}} {1+e^{-t}} - 
+	\frac{1} {1+e^{-t}}
+} = -\frac{1+e^{-t}} {e^{-t}}
+$$
+把这个式子带回式子log2-1中去
+$$
+\begin{align}
+	(\log{(1-\sigma (t))})' &= -\frac{1}{1-\sigma(t)} \cdot(1+e^{-t})^{-2} \cdot e^{-t}  \tag{log2-1} \\
+	&= -\frac{1+e^{-t}}{e^{-t}} \cdot(1+e^{-t}) \cdot e^{-t} \tag{log2-2} \\
+	&= -(1+e^{-t})^{-1} \tag{log2-3} \\
+	&= -\sigma(t) \tag{log2-4}
+\end{align}
+$$
+
+* log2-2约分一下，得到log2-3
+* log2-3负号后面的部分就是$\sigma(t)$本身，替换得到log2-4，log2-4就是$log{(1-\sigma (t))}$的导数的最后的形态。
+
+最后，看式子的后半部分：
+$$
+\frac 
+	{\mathrm{d} ((1-y^{(i)}) \log(1-\sigma(X_b^{(i)} \theta))) } 
+	{\mathrm{d} \theta_j} = 
+(1 - y^{(i)}) \cdot (-\sigma(X_b^{(i)} \theta)) \cdot X_j^{(i)}
+\tag{后半部分的导数}
+$$
+
+* $(1 - y^{(i)})$是一个常数，拿出去，这就是后半部分导数中由点乘符号分割开的三个项中的头一项
+* $\log{...}$，参考等式log2-4，将里面的内容代入log2-4，就能获取到后半部分导数的由点乘符号分开的三个项目的中间那一项
+* 因为是对$\theta_j$求导，要考虑前面的系数，也就是$X_b^{(i)}$中的第$i$行$j$列的数。
+
+连接前后两个部分：
+$$
+\begin{align}
+&y^{(i)} (1 - \sigma(X_b^{(i)} \theta)) \cdot X_j^{(i)} + (1 - y^{(i)}) \cdot (-\sigma(X_b^{(i)} \theta)) \cdot X_j^{(i)} \tag{J'(theta)-1}\\
+&= y^{(i)}X_j^{(i)} - y^{(i)}\sigma(X_b^{(i)} \theta)\cdot X_j^{(i)}
+	 -\sigma(X_b^{(i)}\theta)\cdot X_j^{(i)} + y^{(i)}\sigma(X_b^{(i)}\theta)\cdot X_j^{(i)} \tag{J'(theta)-2}\\
+ &= y^{(i)}X_j^{(i)} -\sigma(X_b^{(i)}\theta)\cdot X_j^{(i)} \tag{J'(theta)-3}\\
+ &= X_j^{(i)}(y^{(i)} - \sigma(X_b^{(i)}\theta))\tag{J(theta)-4}
+\end{align}
+$$
+
+* $J'(theta)-1$的前后两项拆开可以得到$J'(theta)-2$
+* $J'(theta)-2$中一共4项，但是有俩的符号刚好相反，但是本体一致，所以消除掉，得到$J'(theta)-3$
+* $J'(theta)-3$提取公因式，得到$J'(theta)-4$
+
+最后整理：
+$$
+\begin{align}
+	\frac{J(\theta)}{\theta_j} &= \frac{1}{m} \sum_{i=1}^m (\sigma(X_b^{(i)}\theta) - y^{(i)})X_j^{(i)} \\
+	&=\frac{1}{m} \sum_{i=1}^m (\hat{y}^{(i)} - y^{(i)}) X_j^{(i)}
+\end{align}
+$$
+最终，损失函数的梯度：
+$$
+\nabla J(\theta) = 
+\left \{
+    \begin{matrix}
+		\frac {\partial J} {\partial \theta_0} \\ 
+		\frac {\partial J} {\partial \theta_1} \\ 
+		\frac {\partial J} {\partial \theta_2} \\ 
+		\cdots\\
+		\frac {\partial J} {\partial \theta_n}
+    \end{matrix}
+\right \} = 
+\frac{1}{m}
+\left \{
+    \begin{matrix}
+      \sum_{i=1}^m(\sigma(X_b^{(i)} \theta - y^{(i)})) \\
+      \sum_{i=1}^m(\sigma(X_b^{(i)} \theta - y^{(i)})) \cdot X_1^{(i)} \\ 
+      \sum_{i=1}^m(\sigma(X_b^{(i)} \theta - y^{(i)})) \cdot X_2^{(i)} \\ 
+      \cdots \\
+      \sum_{i=1}^m(\sigma(X_b^{(i)} \theta - y^{(i)})) \cdot X_n^{(i)}
+    \end{matrix}
+\right \}
+$$
+稍微可以改写一下：
+$$
+\nabla J(\theta) = 
+\frac{1}{m}\left \{
+    \begin{matrix}
+      \sum_{i=1}^m (\hat{y}^{(i)} - y^{(i)}) \\
+      \sum_{i=1}^m (\hat{y}^{(i)} - y^{(i)}) \cdot X_1^{(i)} \\ 
+      \sum_{i=1}^m (\hat{y}^{(i)} - y^{(i)}) \cdot X_2^{(i)} \\ 
+      \cdots \\
+      \sum_{i=1}^m (\hat{y}^{(i)} - y^{(i)}) \cdot X_n^{(i)}
+    \end{matrix}
+\right \}
+$$
+回忆，线性回归算法的梯度：
+$$
+\nabla J(\theta)=
+\frac{2}{m} \cdot
+\left \{
+    \begin{matrix}
+    \sum_{i=1}^m (X_b^{(i)} - y^{(i)}) \\
+		\sum_{i=1}^m (X_b^{(i)} - y^{(i)}) \cdot X_1^{(i)} \\ 
+		\sum_{i=1}^m (X_b^{(i)} - y^{(i)}) \cdot X_2^{(i)} \\ 
+		\cdots \\
+		\sum_{i=1}^m (X_b^{(i)} - y^{(i)}) \cdot X_n^{(i)}
+    \end{matrix}
+\right \}
+$$
+逻辑回归的梯度和线性回归的梯度是有关联的，通过这个规律我们可以快速的对这个梯度的运算进行项量化：
+$$
+\nabla J(\theta) = \frac{1}{m} \cdot X_b^T \cdot(\sigma(X_b \theta) - y)
+$$
+
 
 #### <span id="Decision-Boundary">决策边界</span>
 
