@@ -6,6 +6,7 @@
 * [混淆矩阵](#Confusion Matrix)
 * [精准率和召回率](#Precision and recall rate)
 * [F1 Score](#F1 Score)
+* [Precision-Recall 的平衡](#Balance-of-Precision-Recall)
 
 #### <span id="the-problem-of-classification-accuracy">分类准确度的问题</span>
 
@@ -51,6 +52,8 @@
 * 真的有病，并且被标记出来有病的是8个
 
 #### <span id="Precision and recall rate">精准率和召回率</span>
+
+[参考实验代码](../notebooks/chp8-Classification-Performance-Measures/01-Implement-Confusion-Matrix-Precision-and-Recall.ipynb)
 
 在混淆矩阵的基础上进行一些计算，就获得到了精准率，召回率。
 
@@ -111,6 +114,8 @@ $$
 
 #### <span id="F1 Score">F1 Score</span>
 
+[参考实验代码](../notebooks/chp8-Classification-Performance-Measures/02-F1-Score.ipynb)
+
 精准率和召回率帮助我们判断算法的优劣，但是它们是两个指标。有时候对于一个算法，精准率高一些，召回率低一些，或者召回率高一些，精准率低一些，使用这两个指标的时候，应该如何解读精准率和召回率呢？当然应该分具体使用场景来确定。
 
 比如，预测一个股票未来是升还是降，这个时候我们更在意精准率。
@@ -141,3 +146,67 @@ $$
 $$
 使用调和平均值的好处就是，在面对其中一个值特别低，另一个值特别高，也就是二者极度不平衡的话，得到的值也将特别低，只有这两个都非常高的时候，F1的值才会特别高。
 
+
+
+#### <span id="Balance-of-Precision-Recall">Precision-Recall的平衡</span>
+
+对于一些场景，我们注重算法的召回率，比如医疗，有时候更注重精准率，比如股市的预测，对于手写数字，鸢尾花识别来说，无关乎精准率和召回率，我们希望二者越大越好，这时候就可以使用F1-Score。
+
+怎么能同时使得精准率和召回率都变大呢？对于这样的目标，很多时候是不能实现的，因为精准率和召回率是互相矛盾的，此消彼长，我们要做的是找到二者的平衡。
+
+回到逻辑回归算法：
+$$
+\begin{align}
+\hat{p} &= \sigma(\theta^T \cdot x_b) = \frac{1} {1 + e^{-\theta^{T} \cdot x_b}}  \tag{预测出的概率p}\\
+
+\hat{y} &= 
+    \left \{ 
+        \begin{matrix}
+            1, &\hat{p} \ge 0.5, \space \theta^T \cdot x_b \ge 0 \\
+            0, &\hat{p} \lt 0.5, \space \theta^T \cdot x_b \lt 0
+        \end{matrix}
+    \right. \tag{预测值}\\
+\theta^T \cdot x_b &= 0 \tag{决策边界}
+\end{align}
+$$
+通过训练找到一组参数$\theta$，与$x_b$点成，与$0$作比较，判断其分类。基于这样的算法衍生出了一条直线：决策边界。
+
+对于决策边界，为什么我们采用$\theta^T \cdot x_b = 0 $，而不是$\theta^T \cdot x_b = threshold $，其中$threshold$是一个常量，称之为阈值。
+
+* $\theta^T \cdot x_b \ge threshold$的时候决策为1
+* $\theta^T \cdot x_b \lt threshold$的时候决策为0
+
+这样也能形成决策边界。
+
+基于这样的想法，我们就给算法引入了一个超参数：$threshold$，通过这个超参数我们就可以平移决策边界对应的直线，从而影响分类结果。
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_1.png" style="zoom:25%; "/></p>
+
+观察这个图，假设决策边界在$0.00$处，以此为基准，构建混淆矩阵，可以算得：
+
+* 所有判断为1的样本中，判断正确的概率即为精准率，结果是 $\frac{4}{5} = 0.8$
+* 真正为1的样本有6个，判断正确4个，所以召回率为$\frac{4}{6} = 0.67$
+
+如果挪动决策边界：
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_2.png" style="zoom:25%; "/></p>
+
+如果以Decision Boundary-2作为决策边界，此时：
+
+* 精准率为$\frac{2}{2} =1.0$
+* 召回率为$\frac{2}{6} = 0.33$
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_3.png" style="zoom:25%; "/></p>
+
+如果以Decision Boundary-3作为决策边界：
+
+* 精准率为$\frac{6}{8} =0.75$
+* 召回率为$\frac{6}{6} = 1.0$
+
+通过这个例子，可以精准率和召回率，在有些情况下，是互相牵制，互相矛盾的变量。
+
+很好理解，想让精准率变高，做决策时候我们会倾向于把**特别有把握**的数据(比如得到的p在90%~99%的时候)分类为1，显然这样做会有很多真实为1的样本被排除在了y=1的外面，召回率自然就降低了。
+
+反过来，召回率想要升高，就需要降低判断的概率，只有10%患癌的可能性，都说他患癌，去做进一步的确诊，这样就会拉低阈值，精准率就下降了。
+
+[参考实验代码](../notebooks/chp8-Classification-Performance-Measures/03-Precision-Recall-Trade-off.ipynb)
