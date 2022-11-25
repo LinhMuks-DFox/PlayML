@@ -282,5 +282,11 @@ TPR与FPR之间也是存在一定联系的：
 
 ROC曲线就是刻画这两个指标的关系。
 
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_11.png" style="zoom:20%; "/></p>
+
+对于ROC曲线来说，其包含的面积越大越好。x越小的时候(FPR越低的时候，犯FP错误的越少的时候)，这个曲线的值越高(TPR值越大，也就获得TP正解的越多的时候)，这根曲线就会被抬的越高，这底下的面积就会越大，所以面积越大越好。
+
+这个曲线的面积最大值是1，因为FPR，TPR的定义域在$[0, 1]$之间，最好的时候是沾满整个$[0, 1]$，也就是一个正方形，面积为1，最坏的时候是0。
+
 [参考代码](../notebooks/chp8-Classification-Performance-Measures/05-ROC.ipynb)
 
