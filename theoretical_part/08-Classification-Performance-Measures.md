@@ -9,6 +9,7 @@
 * [Precision-Recall 的平衡](#Balance-of-Precision-Recall)
 * [精准率召回率曲线](#Precision-Recall-Curve)
 * [ROC曲线](#ROC-Curve)
+* [多分类问题的混淆矩阵](#Confusion-Matrix-Of-multi-Class)
 
 #### <span id="the-problem-of-classification-accuracy">分类准确度的问题</span>
 
@@ -288,5 +289,17 @@ ROC曲线就是刻画这两个指标的关系。
 
 这个曲线的面积最大值是1，因为FPR，TPR的定义域在$[0, 1]$之间，最好的时候是沾满整个$[0, 1]$，也就是一个正方形，面积为1，最坏的时候是0。
 
+ROC对有偏的数据是不如Recall-Precision那么敏感的，所以对于有偏的数据，具体的查看Precision-Recall 的指标是有必要的。
+
+ROC-AUC的应用场景一般用于比较两个模型的好坏：
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_12.png" style="zoom:40%; "/></p>
+
+比如对于同一算法的不同超参数获得的模型产生的ROC曲线A与B，这里就可以说B对应的模型是更优的。
+
 [参考代码](../notebooks/chp8-Classification-Performance-Measures/05-ROC.ipynb)
+
+
+
+#### <span id="Confusion-Matrix-Of-multi-Class">多分类问题的混淆矩阵</span>
 
