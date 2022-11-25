@@ -7,6 +7,8 @@
 * [精准率和召回率](#Precision and recall rate)
 * [F1 Score](#F1 Score)
 * [Precision-Recall 的平衡](#Balance-of-Precision-Recall)
+* [精准率召回率曲线](#Precision-Recall-Curve)
+* [ROC曲线](#ROC-Curve)
 
 #### <span id="the-problem-of-classification-accuracy">分类准确度的问题</span>
 
@@ -152,7 +154,7 @@ $$
 
 对于一些场景，我们注重算法的召回率，比如医疗，有时候更注重精准率，比如股市的预测，对于手写数字，鸢尾花识别来说，无关乎精准率和召回率，我们希望二者越大越好，这时候就可以使用F1-Score。
 
-怎么能同时使得精准率和召回率都变大呢？对于这样的目标，很多时候是不能实现的，因为精准率和召回率是互相矛盾的，此消彼长，我们要做的是找到二者的平衡。
+怎么能同时使得精准率和召回率都最大呢？对于这样的目标，很多时候是不能实现的，因为精准率和召回率是互相矛盾的，此消彼长，我们要做的是找到二者的平衡。
 
 回到逻辑回归算法：
 $$
@@ -210,3 +212,32 @@ $$
 反过来，召回率想要升高，就需要降低判断的概率，只有10%患癌的可能性，都说他患癌，去做进一步的确诊，这样就会拉低阈值，精准率就下降了。
 
 [参考实验代码](../notebooks/chp8-Classification-Performance-Measures/03-Precision-Recall-Trade-off.ipynb)
+
+最后，自己做模型的时候，这个阈值应该选取多少呢？参考下一小节
+
+#### <span id="Precision-Recall-Curve">精准率-召回率曲线</span>
+
+精准率-召回率曲线是帮助寻找阈值的指标，请先[参考代码](../notebooks/chp8-Classification-Performance-Measures/04-Precision-Recall-Curve.ipynb)。
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_4.png" style="zoom:25%; "/></p>
+
+Precision-Recall曲线，通过这个图，假设我们希望精准率为95%，那么就在y轴等于95%的位置，取其x作为决策边界。
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_5.png" style="zoom:25%; "/></p>
+
+对于这曲线，通常都会有一个急剧下降的点，这点一般都是精确率召回率达到一个很好的平衡的点，由此图可以找出平衡点处Precision的值，再通过上面那张Precision-Recall-Thresholds的图找到这个平衡点对应的决策边界。
+
+最后，假设由两个算法，或者是同一个算法的不同的超参数产生了两个模型，分别得到了PR曲线A和B：
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_6.png" style="zoom:40%; "/></p>
+
+* y轴是从0到1
+* x轴也是从0到1
+
+此时，我们说产生B(外面那根曲线)的算法优于产生A(里面那根曲线)的算法，因为构成B的那些$(precision, recall)$都比构成A$(precision, recall)$要大一些。
+
+因此，**PR曲线也可以作为选择模型，选择算法，选择超参数的指标。**
+
+当然说里外可能抽象了一点，我们可以对这两个不同的曲线从0到1积分积分，也就是计算其包的面积，面积大的那个更优。虽然如此，但是大多数时候我们**不用PR曲线所谓包围的面积来衡量模型/算法的优劣**，而用另外一根曲线产生的面积，这个曲线，就是赫赫有名的**ROC曲线**
+
+#### <span id="ROC-Curve">ROC曲线</span>
