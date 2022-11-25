@@ -241,3 +241,46 @@ Precision-Recall曲线，通过这个图，假设我们希望精准率为95%，�
 当然说里外可能抽象了一点，我们可以对这两个不同的曲线从0到1积分积分，也就是计算其包的面积，面积大的那个更优。虽然如此，但是大多数时候我们**不用PR曲线所谓包围的面积来衡量模型/算法的优劣**，而用另外一根曲线产生的面积，这个曲线，就是赫赫有名的**ROC曲线**
 
 #### <span id="ROC-Curve">ROC曲线</span>
+
+ROC，全称叫做 Receiver Operation Characteristic Curve ，是一个统计学上的属于，描述的是TPR与FPR之间的关系。
+
+* TPR: True positive rate, 和Recall 是一个意思，TP除以真实值为1的数量，预测为1，并且预测对了的数量占真实值为1的百分比
+
+* FPR: False positive rate, 用FP除以真实值为0的数量，预测为1，可惜预测错了的数量占真实值为0的百分比。
+$$
+FPR = \frac{FP}{TN + FP} \\
+TPR = \frac{TP}{TP + FN}
+$$
+TPR与FPR之间也是存在一定联系的：
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_7.png" style="zoom:20%; "/></p>
+
+此时：
+* $FPR=\frac{0}{6}=0.00$
+* $TPR=\frac{2}{6}=0.33$
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_8.png" style="zoom:20%; "/></p>
+
+此时：
+
+* $FPR=\frac{1}{6}=0.16$
+* $TPR=\frac{2}{6}=0.67$
+
+
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_9.png" style="zoom:20%; "/></p>
+
+此时：
+
+* $FPR=\frac{2}{6}=0.33$
+* $TPR=\frac{6}{6}=1.0$
+
+<p style="align:center"><img src="./pngs/Classification-Performance-Measures_10.png" style="zoom:20%; "/></p>
+
+随着threshold逐渐左移，TPR，FPR都是在上升的。他们存在着相一致的趋势。和Recall-Precision正好相反。
+
+* 为了提高TPR，就需要拉低阈值，相应犯FP的错误也会增多，FPR也就增多了
+
+ROC曲线就是刻画这两个指标的关系。
+
+[参考代码](../notebooks/chp8-Classification-Performance-Measures/05-ROC.ipynb)
+
