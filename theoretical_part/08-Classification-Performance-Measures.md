@@ -303,3 +303,4 @@ ROC-AUC的应用场景一般用于比较两个模型的好坏：
 
 #### <span id="Confusion-Matrix-Of-multi-Class">多分类问题的混淆矩阵</span>
 
+本节内容全部存在于代码中，请[参考notebooks中的代码](../notebooks/chp8-Classification-Performance-Measures/06-Confusion-Matrix-in-Multiclass-classification.ipynb)
