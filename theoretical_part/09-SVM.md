@@ -4,6 +4,7 @@
 
 * [什么是支撑向量机？](#what-is-SVM)
 * [SVM背后的最优化问题](#The-Optimisation-Problem-Behind-SVM)
+* [Soft Margin SVM与SVM的正则化](#Soft-Margin-SVM)
 
 
 
@@ -252,8 +253,93 @@ y^{(i)} (w^Tx^{(i)}  + b) \ge 1
 $$
 通常在数学上用s.t.（such that）来表示限定条件，所以支撑向量机背后的最优化问题：
 $$
-\min{\frac{1}{2}||w||^2}, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1$} 
+\min{\frac{1}{2}||w||^2}, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1$} \tag{Hard Margin SVM}
 $$
 之前所撰写的线性回归，逻辑回归的最优化问题都是全局最优化问题，也就是没有限定条件的，但是这个是有的。
 
 有条件与没条件的最优化问题的解决方法是大不同的，没有任何条件的时候，对于目标函数，求导，取极值，应该就是极大值or极小值，但是有条件的时候，求解起来就麻烦了很多，需要拉普拉斯算子来进行求解。太复杂了，本科数学估计都不够用，所以略。另外到此为止解决的只是Hard margin SVM，数据必须线性可分，这太过于理想，所以下一节撰写Soft margin SVM。
+
+#### <span id="Soft-Margin-SVM"> Soft Margin SVM与SVM的正则化</span>
+
+还是之前的红蓝分类的例子， 如果样本分布变成这样：
+
+<p style="align:center"><img src="./pngs/SVM_10.png" style="zoom:20%; "/></p>
+
+通过hard margin svm算法所得到的决策边界很有可能是这样的一条直线：
+
+<p style="align:center"><img src="./pngs/SVM_11.png" style="zoom:20%; "/></p>
+
+对于这样的直线，看似正确的分类了两个类别，但是单看这个图，会让人不得不怀疑其泛化能力，很显然对于大多数蓝色的点都在左下侧，但是决策边界非常强的受到了最右边的蓝色样本的影响。
+
+这个蓝色点很可能是个Outlier，可能是个噪音，如果因为这一个点，而将决策边界画在这里，显然有过拟合的倾向，放宽要求，如果将决策边界放到这里：
+
+<p style="align:center"><img src="./pngs/SVM_12.png" style="zoom:20%; "/></p>
+
+虽然分错了一个点，但是实际上，这样的决策边界可能会比上面那个更好。也就是所谓的泛化能力更强。
+
+所以必须思考一个机智，SVM所获取的决策边界，要能够有一定的容错能力，可以把一些点错误的分类，换取更高的泛化能力。
+
+另外，如果数据是线性不可分的，没有任何一根直线可以正确地分割红蓝阵营的话：
+
+<p style="align:center"><img src="./pngs/SVM_13.png" style="zoom:20%; "/></p>
+
+Hard Margin SVM算法在这种问题上已经不是泛化能力强不强的问题了，而是根本无法应用，不管从哪个角度分析，都必须引入一个具有容错里的SVM。
+
+这种SVM，就叫做Soft Margin SVM。
+
+回到Hard Margin SVM的式子：
+$$
+\min{\frac{1}{2}||w||^2}, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1$} \tag{Hard Margin SVM}
+$$
+其中有个限定条件：对于Margin区域中，不存在任何数据点。
+
+为了引入容错，可以引入一个新的宽松量$\zeta_i$，使得所有的数据点不一定要在Margin区域的外头：
+$$
+\min{\frac{1}{2}||w||^2}, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1 - \zeta_i$} ， \zeta_i \ge 0\tag{Soft Margin SVM}
+$$
+回顾Margin是怎么来的：
+
+<p style="align:center"><img src="./pngs/SVM_9.png" style="zoom:60%; "/></p>
+
+是图中的$w^Tx^{(i)}  + b = 1$与$w^Tx^{(i)}  + b = -1$这两根直线的距离。SVM背后的最优化的目标就是最大化这个Margin。
+
+加入宽松量宽松量$\zeta_i$，实际上是这样：
+
+<p style="align:center"><img src="./pngs/SVM_14.png" style="zoom:60%; "/></p>
+
+这个上侧虚线所对应的方程，我们管它叫：
+$$
+w^Tx^{(i)}  + b = 1 -\zeta
+$$
+
+
+对于$\zeta$来说：
+
+* **必须大于等于0**的，如果是个负数，相当于是把缓冲区划到了实线的外头，反而使得条件更加严格。
+
+* 不是一个固定值，对于每一个数据点（红点，蓝点）都有一个自己的值，有$m$个数据点，$\zeta$就有$m$个
+
+* 大于等于0也不能太大，来个正无穷也遭不住，需要限制$\zeta$ 的大小。希望它存在容错，但是又不能太大，需要对最优化的目标函数修改：
+  $$
+  \min{\frac{1}{2}||w||^2} + \sum_{i=1}^m \zeta_i, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1 - \zeta_i$} ， \zeta_i \ge 0
+  $$
+  这样一来，最小化的式子就既可以顾及SVM的思想所要做的事情，也是的在最小程度上容忍一定的错误。
+
+另外，最小化优化的时候，$\zeta$的部分以及$w$的部分的优化占比是被要求可以控制的，类似于岭回归/LASSO中，加入一个参数来控制这个多项式中的子项在优化过程中的重要程度。综合考虑，Soft Margin SVM的表达式应该是：
+$$
+\min{\frac{1}{2}||w||^2} + C\sum_{i=1}^m \zeta_i, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1 - \zeta_i$} ， \zeta_i \ge 0 \tag{Soft Margin SVM}
+$$
+通过$C$来控制前后的优化占比。是一个新的超参数。$C$越大，容错空间越小。
+
+另外，加上$\sum$这一项，通常也叫“在SVM中加入了L1正则项。”，因为$\zeta$被限定大于等于0，所以不需要加入绝对值。
+
+换句话说，$\zeta$这一项是一个正则化项，用于避免模型向极端方向发展，把它拉回正常的方向。
+
+话又说回来，不论是线性模型也好，其他模型也罢，加入正则化项的最终目的其实也可以理解成：**给予模型在学习训练数据集时一些容错，使其对训练数据集中的极端数据不那么敏感，以此来提高其泛化能力。**
+
+这里可以加入L1正则，就可以加入L2正则：
+$$
+\min{\frac{1}{2}||w||^2} + C\sum_{i=1}^m \zeta_i ^2, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1 - \zeta_i$} ， \zeta_i \ge 0 \tag{Soft Margin SVM}
+$$
+到此为止，线性的SVM的（Linear Soft Margin SVM）理论部分，结束。
+
