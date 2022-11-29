@@ -5,6 +5,9 @@
 * [什么是支撑向量机？](#what-is-SVM)
 * [SVM背后的最优化问题](#The-Optimisation-Problem-Behind-SVM)
 * [Soft Margin SVM与SVM的正则化](#Soft-Margin-SVM)
+* [SVM-in-sklearn](#SVM-in-sklearn)
+* [SVM中使用的多项式特征](#Polynomial-Feature-in-SVM)
+* [SVM中的核函数](#Kernel-Function-in-SVM)
 
 
 
@@ -345,9 +348,92 @@ $$
 
 
 
-#### SVM in Sklearn
+#### <span id="SVM-in-sklearn"> SVM in Sklearn</span>
 
 工程上使用SVM算法之前，需要对数据进行归一化，用于减少特征对Margin的影响。SVM算法对数据的量冈非常敏感。
 
-[SVM in Sklearn](../notebooks/chp9-SVM/01-SVM-in-sk-learn.ipynb)
+具体内容参考代码：[SVM in Sklearn](../notebooks/chp9-SVM/01-SVM-in-sk-learn.ipynb)
 
+
+
+#### <span id="Polynomial-Feature-in-SVM">sklearn中的SVM 中使用多项式特征与核函数</span>
+
+具体内容参考代码：[Polynomial-Feature-in-SVM](../notebooks/chp9-SVM/02-Polynomial-Feature-in-SVM.ipynb)
+
+在SVM算法中有个很重要的参数：Kernel Function
+
+
+
+#### <span id="Kernel-Function-in-SVM">SVM中的核函数</span>
+
+之前的内容中介绍了SVM的最优化问题：
+$$
+\min{\frac{1}{2}||w||^2} + C\sum_{i=1}^m \zeta_i, \text{s.t. $y^{(i)} (w^Tx^{(i)}  + b) \ge 1 - \zeta_i$} ， \zeta_i \ge 0 
+$$
+具体数学上求解的时候，会把这个式子转换成这样：
+$$
+\max{\sum_{i=1}^m\alpha_i - \frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i \alpha_j y_i y_j x_i x_j} \\
+\text{s.t. $0 \le \alpha\le C, \sum_{i=1}^m \alpha_i y _i=0$} \tag{SVM-kernel-1}
+$$
+这个转变的过程就略过。
+
+转换后的式子的后一项的最后，有一个$x_i, x_i$，有两个$\Sigma$，一个控制$i$，一个控制$j$，换句话说，转变后的式子中，对于数据集$X$，其中任意的两个向量都要做一下点乘。
+
+如果想使用多项式特征，最基本的做法就是使得：
+
+* $x^{(i)} \rightarrow x' ^{(i)}$
+* $x^{(j)} \rightarrow x' ^{(j)}$
+
+然后把$x'^{(i)}, x'^{(j)}$代入SVM-kernel-1。
+
+核函数的思想是：先不分别转换$x^{(i)}, x^{(j)}$，而设置一个函数，这个函数输入$x^{(i)}, x^{(j)}$输出$x'^{(i)}, x'^{(j)}$：
+$$
+K(x^{(i)}, x^{(j)}) = x'^{(i)} x'^{(j)}
+$$
+如果有了这个函数，SVM-kernel-1就可以转化成：
+$$
+\max{\sum_{i=1}^m\alpha_i - \frac{1}{2}\sum_{i=1}^m\sum_{j=1}^m \alpha_i \alpha_j y_i y_j K(x_i, x_j)} \\
+\text{s.t. $0 \le \alpha\le C, \sum_{i=1}^m \alpha_i y _i=0$} \tag{SVM-kernel-2}
+$$
+对这个$K$函数取不同的函数，对原本的样本做不同的转换。有了$K$函数，就不需要在对原来的样本进行变形，少一个步骤。
+
+这个$K$函数就是所谓的核函数。
+
+许多其他的资料会把核函数叫做Kernel-trick，这是一个使用核函数的技巧，把核函数运用在这里，免去了将原来的样本先进性变形，在进行点乘。对于复杂的运算，核函数的存在使得程序使用的空间减少，同时计算量也减少。
+
+核函数本身不是SVM算法特有的技巧，事实上，只要算法转化成最优化的问题，求解这个最优化的问题的时候，存在$x'^{(i)} x'^{(j)}$这样的式子或者类似这样的式子，都可以相应的应用核函数技巧。
+
+对于多项式核函数来说，定义是这样的：
+$$
+K(x, y) &= (x \cdot y + 1)^2 \\
+$$
+注意，输入是两个向量，中间是点乘运算。
+
+对于2次多项式核函数：
+$$
+\begin{align}
+	K(x, y) &= (x \cdot y + 1)^2 \\
+	&= (\sum_{i=1}^n x_i y_i + 1)^2 \\
+	&= 	\sum_{i=1}^n(x_i^2)(y_i^2) + 
+			\sum_{i=2}^n \sum_{j=1}^{i-1}
+			(\sqrt{2} x_i x_j) (\sqrt{2}y_i y_j) + 
+			\sum_{i=1}^n (\sqrt{2} x_i) (\sqrt2 y_i) + 1\\
+	&= x' \cdot y' \\
+			
+	x' &=(x_n^2, ..., x_1^2, \sqrt2x_n x_{n-1}, ... \sqrt2x_n, ...\sqrt2x_1, 1)
+	
+\end{align} \\
+$$
+$\sqrt2$这个常数项不影响算法的准确性。
+
+多项式核函数，可以调节其degree：
+$$
+K(x, y) = (x \cdot y + c)^d
+$$
+其中$d$是degree，$c$是常数，$d, c$是新的超参数
+
+线性核函数：
+$$
+K(x,y)=x \cdot y
+$$
+众多核函数中有一个非常知名的核函数：高斯核函数‘
