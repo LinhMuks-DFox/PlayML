@@ -343,3 +343,11 @@ $$
 $$
 到此为止，线性的SVM的（Linear Soft Margin SVM）理论部分，结束。
 
+
+
+#### SVM in Sklearn
+
+工程上使用SVM算法之前，需要对数据进行归一化，用于减少特征对Margin的影响。SVM算法对数据的量冈非常敏感。
+
+[SVM in Sklearn](../notebooks/chp9-SVM/01-SVM-in-sk-learn.ipynb)
+
