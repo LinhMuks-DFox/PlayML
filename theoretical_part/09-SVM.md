@@ -9,6 +9,8 @@
 * [SVM中使用的多项式特征](#Polynomial-Feature-in-SVM)
 * [SVM中的核函数](#Kernel-Function-in-SVM)
 * [RBF核函数](#RBF核函数)
+* [RBF中的Gamma](#Gamma-in-RBF)
+* [SVM解决回归问题](#SVM-Regression)
 
 
 
@@ -527,3 +529,16 @@ $$
 
 参考[相关代码](../notebooks/chp9-SVM/04-Gamma-in-RBF.ipynb)，了解Gamma如何影响模型的复杂度，以及具体gamma的意义。
 
+#### <span id="SVM-Regression">SVM算法解决回归问题</span>
+
+回归最基本想法，就是找到一组参数定义的直线/曲线，最好的拟合数据点。
+
+线性回归中，定义拟合的方式，就是让数据点到直线之间的MSE最小，对于SVM来说，拟合的定义是：
+
+指定一个Margin值，在Margin范围里，包含的样本数据点越多越好。求取这个Margin，其中间那条线就是求取的回归模型。这和使用SVM解决分类问题的思路恰巧相反。
+
+在具体训练SVM回归模型的时候，是需要指定Margin的，通过引入超参数$\epsilon$，Margin是有上下两根直线的，$\epsilon$代表的是上/下直线到模型直线/曲线的距离：
+
+<p style="align:center"><img src="./pngs/SVM_19.png" style="zoom:40%; "/></p>
+
+[相关代码](../notebooks/chp9-SVM/05-SVR.ipynb)
