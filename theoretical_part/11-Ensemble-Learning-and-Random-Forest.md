@@ -9,7 +9,6 @@
 * [随机森林和Extra-Tree](#Random-Forest)
 * [Ada Boosting和 Gradient Boosting](#Boosting)
 * [Stacking](#Stacking)
-* [XGBoost](#XGBoost)
 
 #### <span id="Ensembel-Learning">什么是集成学习</span>
 
@@ -74,7 +73,6 @@ Soft Voting算法中，每个模型都给出了分为A，B两个类的概率，�
    P(A) = \frac{(0.99 + 0.49 + 0.4 + 0.9 + 0.3)}{5} = 0.616
    $$
    
-
 2. 分为B的概率为：
    $$
    P(B) = \frac{(0.1 + 0.51 + 0.6 + 0.1 + 0.7)}{5} = 0.384
@@ -146,7 +144,7 @@ OOB， Out of bag。放回取样导致一部分样本很有可能没有取到，
 
 如果是这样，机器学习的过程中就不需要分割测试/训练数据集了，转而使用这部分没有被取样到的样本做测试/验证。
 
-在sklearn中就有一个叫做oob_score_的属性来表示，使用没有被取样过的样本作为测试数据集计算后的模型的准确度。
+在sklearn中就有一个叫做`oob_score_`的属性来表示，使用没有被取样过的样本作为测试数据集计算后的模型的准确度。
 
 另外，对于Bagging的思路来说，是极易并行化处理的。
 
@@ -156,18 +154,94 @@ OOB， Out of bag。放回取样导致一部分样本很有可能没有取到，
 
 数据矩阵，每一行都是个样本，每一列都是样本的某一个维度的特征，不仅随机的看行（随机看样本），还随机看样本的特征（随机看列），这就在数据矩阵中形成了随机的小方块，这些小方块可以想象成一个个小补丁。这个方式在sklearn中使用boostrap_feature和max_feature参数来控制。
 
-这种随机方式还有个名字，叫做随机森林。
+这种集成学习方式还有个名字，叫做随机森林。
 
 [参考代码](../notebooks/chp11-Ensemble-Learning-and-Random-Forest/04-OOB-and-More-about-Bagging-Classifier.ipynb)
 
-#### <span id="Random-Forest">随机森林和Extra-Tree</span>
+#### <span id="Random-Forest">随机森林和Extra-Trees</span>
+
+在集成学习中，使用Decision Tree作为集成学习中的Base Estimator，随机的投喂数据，生成子模型，遮罩方式就是所谓的随机森林。有很多树，树与树之间又不同。
+
+在Sklearn中专门为随机森林提供了特殊的接口。决策树在节点划分上，在随机的特征子集上寻找最优划分特征。sklearn中的随机森林的超参数包含了决策树的超参数。
+
+与随机森林类似的算法还有一个，叫做Extra-Trees，极其随机的随机森林。决策树在节点划分上，使用随机的特征和随机的阈值。因为随机性更强，所以子模型之间的差异更加的大。
+
+这种方式提供了额外的随机性：
+
+* 抑制过拟合（减少了方差）
+* 一定程度上增大了Bias
+* 阈值与特征都是随机的，所以减少了计算量，训练速度更快
 
 [参考代码](../notebooks/chp11-Ensemble-Learning-and-Random-Forest/05-Random-Forest-and-Extra-Trees.ipynb)
 
 #### <span id="Boosting">Ada Boosting和 Gradient Boosting</span>
 
+另外一类集成学习的方法叫做Boosting，它也需要集成多个模型，每个模型都在尝试增强(Boosting)整体的效果。每个子模型之间不是独立的，每个子模型都在增强整体的模型。
+
+##### Ada Boosting
+
+<p style="align:center"><img src="./pngs/Ensemble_1.png" style="zoom:50%; "/></p>
+
+这个算法的流程是这样的：
+
+1. 将原始数据集$A$送往模型$1$中进行学习，如$A'$所示，模型$1$会拟合一部分点，也有拟合不到的点，将拟合到的点的权重调小，没拟合到的点的权重调大，得到整理后的数据集$B$
+2. 将$B$数据集送往模型$2$中进行学习，模型$2$会在一定程度弥补模型$1$所犯的错误，但是自己也会犯一些错误，模型$2$也会有无法拟合的点，将这些被拟合的点的权重调小，没有拟合的点的权重调大，得到数据集$C$
+3. 将数据集$C$送往模型$3$中学习，让模型$3$去弥补$1$和$2$的错误，修改权重，得到模型$4$，依此类推
+
+由此可见，所有的子模型之间不是毫无关系的，后面的子模型都在尝试修改前面的模型犯下的错误，整体上每个子模型都在尝试增强集成模型的准确度。子模型之间关注的点是不一样的，因为每个样本点的权重改变了，但是子模型之间也有关联。
+
+##### Gradient Boosting
+
+这个算法的思想和Ada有点点类似：
+
+1. 训练一个模型$m1$，产生错误$e1$
+2. 针对$e1$训练模型$m2$，产生错误$e2$
+3. 针对$e2$训练模型$m3$，产生错误$e3$
+
+最终预测结果：$m1 + m2 + m3 \cdots$
+
+<p style="align:center"><img src="./pngs/Ensemble_2.png" style="zoom:70%; "/></p>
+
+比如有一些数据点：
+
+* 模型$m1$拟合了一部分，$m1$右边的$y$为$m1$的预测值
+
+* 此时针对$m1$犯的错误，训练出$m2$，然后集成模型的输出为$m2$右边的图
+* 针对$m2$的错误，训练出$m3$，有了$m3$以后，集成模型的输出为右下角的图。
+
 [参考代码](../notebooks/chp11-Ensemble-Learning-and-Random-Forest/06-AdaBoost-and-Gradient-Boosting.ipynb)
 
 #### <span id="Stacking">Stacking</span>
 
-#### <span id="XGBoost">XGBoost</span>
+<p style="align:center"><img src="./pngs/Ensemble_3.png" style="zoom:50%; "/></p>
+
+与之前的投票不同，Stacking集成学习的方式是这样的：
+
+1. 有若干子模型，将样本输入训练好的子模型中，子模型输出其预测值
+2. 将子模型输出的预测值作为输入，输入Blending模型中，最终以Blending模型的输出作为集成模型的输出。
+
+也就是多弄一个模型，像是入栈一样放到了下面的模型的头上。这种思路可以解决分类问题也可以解决回归问题。
+
+训练方法如图所示：
+
+<p style="align:center"><img src="./pngs/Ensemble_4.png" style="zoom:50%; "/></p>
+
+1. 将原始的数据集分为两份
+2. 用其中一份训练Stacking集成学习模型中下面的若干个子模型（图中就是3个）
+3. 用步骤2中训练出来的若干子模型（图中就是3个）的输出作为真值，以及另一份数据集来训练Blender
+
+使用这个思路，可以构建这种层级的结构：
+
+<p style="align:center"><img src="./pngs/Ensemble_5.png" style="zoom:50%; "/></p>
+
+1. 训练出Layer1中的三个模型
+2. 用Layer1的模型的输出训练Layer2
+3. 使用Layer2的输出训练Layer3
+
+这其实和神经网络的结构非常相似。只不过神经网络的子模型不是一个复杂的模型，子模型只负责计算一个函数。
+
+有一些遗憾的是Scikit-learn中并没有Stacking模型的接口。
+
+到此为止，介绍了许多的机器学习的算法，集成学习的背后有严谨的统计学方法，数学方法支撑。
+
+也到此为止，本系列结束。
