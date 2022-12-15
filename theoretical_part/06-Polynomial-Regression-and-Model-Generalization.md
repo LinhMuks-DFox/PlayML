@@ -106,6 +106,7 @@ $$
  <td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_4.png" style="zoom:50%; " border=0/></td>
 <td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_3.png" style="zoom:50%; " border=0/></td>
 </tr></table>
+* 横轴是训练的样本数，纵轴为train，test的loss score。随着训练的样本的增加，模型在训练数据集，测试数据集上的score。
 
 对于过拟合：
 
