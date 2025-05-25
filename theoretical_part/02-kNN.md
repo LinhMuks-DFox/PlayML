@@ -104,8 +104,8 @@ $$
 
 比如：
 
-* 向量空间预先相似度 Cosine Similarity
-* 调整余相似度，Adjusted Cosine Cimilarity
+* 向量空间余弦相似度 Cosine Similarity
+* 调整余弦相似度 Adjusted Cosine Similarity
 * 皮尔森相关系数 Pearson Correlation Coefficient
 * Jaccard 相似度，Jaccard Coefficient
 
