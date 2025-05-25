@@ -5,7 +5,7 @@
 目录：
 
 * [什么是主成分分析](#About-PCA)
-* [使用梯度上升法求解主成分分析](#Grandient-Ascent-in-PCA)
+* [使用梯度上升法求解主成分分析](#Gradient-Ascent-in-PCA)
 * [前N个主成分](#first-n-C)
 * [数据映射](#data-project)
 * [PCA对数据的降噪作用](#Data-Denoise-By-PCA)
@@ -162,9 +162,9 @@ Var(X_{project}) 	&= \frac{1}{m} \sum^m_{i=1} (X^{(i)} \cdot w )^2 \\
 $$
 最终，主成分分析法，变成了一个目标函数最优化的问题，如何优化捏？当然是，**梯度上升法**。
 
-#### <span id="Grandient-Ascent-in-PCA">使用梯度上升法解决PCA</span>
+#### <span id="Gradient-Ascent-in-PCA">使用梯度上升法解决PCA</span>
 
-[实现](../notebooks/chp5-PCA-And-Gradient-Ascent/01-Implement-PAC-in-Basic-Gradient-Ascent.ipynb)
+[实现](../notebooks/chp5-PCA-And-Gradient-Ascent/01-Implement-PCA-in-Basic-Gradient-Ascent.ipynb)
 
 目标：求$w$，使得：
 $$

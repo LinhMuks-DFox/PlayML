@@ -9,8 +9,8 @@
 * [逻辑回归算法的损失函数](#Loss-Function-Of-Logistic-Regression)
 * [损失函数的梯度](#Gradient-Of-The-Loss-Function-Of-Logistic-Regression)
 * [决策边界](#Decision-Boundary)
-* [在逻辑回归中使用多项式特征](#Polynomial-Feature-in-Logisitic-Regression)
-* [在逻辑回归中使用模型正则化](#Model-Generalization-in-Logisitic-Regression)
+* [在逻辑回归中使用多项式特征](#Polynomial-Feature-in-Logistic-Regression)
+* [在逻辑回归中使用模型正则化](#Model-Generalization-in-Logistic-Regression)
 * [OvR and OvO](#OvR and OvO)
 
 #### <span id="descriptions">简单的算法描述</span>
@@ -449,7 +449,7 @@ $$
 
 这样就可以得到一个不规则的决策边界。
 
-####  <span id="Polynomial-Feature-in-Logisitic-Regression">在逻辑回归中使用多项式特征</span>
+####  <span id="Polynomial-Feature-in-Logistic-Regression">在逻辑回归中使用多项式特征</span>
 
 [代码实现/使用](../notebooks/chp7-Logistic-Regression/03-Polynomial-Feature-in-Logistic-Regression.ipynb)
 
@@ -488,7 +488,7 @@ $$
 
 可以使用从线性回归转换到多项式回归的方法，将线性的逻辑回归转换成非线性的逻辑回归。
 
-#### <span id="Model-Generalization-in-Logisitic-Regression">在逻辑回归中使用模型正则化</span>
+#### <span id="Model-Generalization-in-Logistic-Regression">在逻辑回归中使用模型正则化</span>
 
 如同前一章所说的，多项式的引入，很容易带来一个问题：过拟合。为了解决过拟合，前一章使用了很长的篇幅来阐述正则化的方法。这里就不过多的描述了。但是这里做一些小的修改：
 
