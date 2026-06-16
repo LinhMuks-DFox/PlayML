@@ -23,29 +23,29 @@
 
 如图，有一组数据：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_01.png" style="zoom:100%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_01.png" style="zoom:100%; "/></p>
 
 $x$, $y$分别是两个特征，现在如果我们需要将其进行降维操作，一个显而易见的办法就是丢弃一个特征，比如，我们丢弃y特征，只保留x，则，数据点会变成：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_02.png" style="zoom:100%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_02.png" style="zoom:100%; "/></p>
 
 同理，我们也可以丢弃x特征，只保留y：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_03.png" style="zoom:100%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_03.png" style="zoom:100%; "/></p>
 
 怎么判断，哪一个方案更优呢？
 
-在这个情况在，显然是丢弃y，保留x这个方案更优。
+在这个情况下，显然是丢弃y，保留x这个方案更优。
 
 其原因在于，点和点之间的距离是更大的，也就是说点和点之间有着更好的可区分度。并且，**点和点之间的距离相对较大也更好的保留了原先的点和点之间的关系。**
 
-但这并不最优解，如果我们可以合并两个特征，用一根直线将原先的数据点串起来：
+但这并不是最优解，如果我们可以合并两个特征，用一根直线将原先的数据点串起来：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_04.png" style="zoom:100%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_04.png" style="zoom:100%; "/></p>
 
-一根斜线，如果可以把所有的数据点都映射到这条直线上，将数据点都移到这跟直线上，这样做和原先的数据点的差距更小。
+一根斜线，如果可以把所有的数据点都映射到这条直线上，将数据点都移到这根直线上，这样做和原先的数据点的差距更小。
 
-这种方法想对于【把数据映射到X/Y轴】上来说，更加好的保留了数据点之间原先的距离信息，数据的区分度也更加的明显。
+这种方法相对于【把数据映射到X/Y轴】上来说，更加好的保留了数据点之间原先的距离信息，数据的区分度也更加的明显。
 
 为了找到这个轴，需要搞清楚两个问题：
 
@@ -64,11 +64,11 @@ $x$, $y$分别是两个特征，现在如果我们需要将其进行降维操作
 
    假设有一组样本如下：
 
-   <p style="align:center"><img src="./pngs/PCAAndGradientAscent_05.jpg" style="zoom:25%; "/></p>
+   <p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_05.png" style="zoom:25%; "/></p>
 
-   在进行Demean后，起样本分布就会变成这样：
+   在进行Demean后，其样本分布就会变成这样：
 
-   <p style="align:center"><img src="./pngs/PCAAndGradientAscent_06.jpg" style="zoom:25%; "/></p>
+   <p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_06.png" style="zoom:25%; "/></p>
 
    样本的分布并没有被改变，只是修改了坐标轴。使得样本在每一个维度的均值都是0。
 
@@ -104,11 +104,11 @@ $x$, $y$分别是两个特征，现在如果我们需要将其进行降维操作
 * 对于一组二维的数据来说，我们已经找到了方向$w = (w_1, w_2)$，
 * 现在有一个数据点$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$，其中$X_1^{(i)}, X_2^{(i)}$是数据这个数据样本的两个值。
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_07.jpeg" style="zoom:50%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_07.png" style="zoom:50%; "/></p>
 
 将$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$映射到$w = (w_1, w_2)$上，其实就是做一条垂直线，交点位置就是映射后的点：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_08.jpeg" style="zoom:50%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_08.png" style="zoom:50%; "/></p>
 
 我们管这个点叫做$X^{(i)}_{pr} = (X^{(i)}_{pr1},X^{(i)}_{pr2})$
 
@@ -122,7 +122,7 @@ $$
 $$
 X^{(i)} \cdot w = ||X^{(i)}|| \cdot ||w|| \cdot \cos{\theta}
 $$
-其中$ \cos{\theta}$是两个向量的夹脚的余弦值。
+其中$ \cos{\theta}$是两个向量的夹角的余弦值。
 
 另外，$w$是一个方向向量，也就意味着其模为1，所以可以进一步演化：
 $$
@@ -217,19 +217,19 @@ $$
 	\end{matrix}
 \right\} =
 	
-\frac{2}{m} \cdot (X^{(1)} w, X^{(2)} w, \cdots, X^{(m)} w, ) \cdot
+\frac{2}{m} \cdot (X^{(1)} w, X^{(2)} w, \cdots, X^{(m)} w) \cdot
 \left [
 \begin {matrix}
 	X_1^{(1)} & X_2^{(1)} & X_3^{(1)} & \cdots & X_n^{(1)} \\
-	X_1^{(2)} & X_2^{(2)} & X_3^{(2)} & \cdots & X_n^{(1)} \\
-	X_1^{(3)} & X_2^{(3)} & X_3^{(3)} & \cdots & X_n^{(1)} \\
+	X_1^{(2)} & X_2^{(2)} & X_3^{(2)} & \cdots & X_n^{(2)} \\
+	X_1^{(3)} & X_2^{(3)} & X_3^{(3)} & \cdots & X_n^{(3)} \\
 	\cdots & \cdots & \cdots & \cdots & \cdots \\ 
 	X_1^{(m)} & X_2^{(m)} & X_3^{(m)} & \cdots & X_n^{(m)} \\
 \end {matrix}
 \right] = 
 \frac{2}{m} \cdot (Xw)^T \cdot X
 $$
-后面这一大坨其实就是入的数据本身。因此：
+后面这一大坨其实就是输入的数据本身。因此：
 $$
 \nabla f = \frac{2}{m} \cdot (Xw)^T \cdot X = \frac{2}{m}\cdot X^T(Xw)
 $$
@@ -245,9 +245,9 @@ $$
 
 回到这个图：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_08.jpeg" style="zoom:50%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_08.png" style="zoom:50%; "/></p>
 
-现在我们已经求出了$w$，若我们使用$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$点乘$w$，就可以得到$||X_{project}^{(i)}||$，也就是投射后的向量的模，再在使用这个模去点乘$w$，就能得到这个向量本身$X_{project}^{(i)}= (X_{pr1}^{(i)}, X_{pr2}^{(i)})$(模就是向量的大小，$w$是它的方向)。
+现在我们已经求出了$w$，若我们使用$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$点乘$w$，就可以得到$||X_{project}^{(i)}||$，也就是投射后的向量的模，再使用这个模去点乘$w$，就能得到这个向量本身$X_{project}^{(i)}= (X_{pr1}^{(i)}, X_{pr2}^{(i)})$(模就是向量的大小，$w$是它的方向)。
 
 我们要把$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$这个样本，在$X_{project}^{(i)}$这个方向上的分量去掉，怎么做呢？
 
@@ -259,7 +259,7 @@ X'^{(i)} = X^{(i)} - X^{(i)}_{project}
 $$
 几何上的表示就是：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_09.png" style="zoom:25%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_09.png" style="zoom:25%; "/></p>
 
 求出第一主成分以后，将数据在第一个主成分上的分量去掉，在新的数据上求第一主成分，新的数据上求出来的第一主成分就是最原始的数据的第二主成分，再往后就是第三，第四，第n主成分，如此循环。
 
@@ -286,7 +286,7 @@ X = \left \{
  \\
 W = \left \{
     \begin{matrix}
-		W_1^{(1)} & W_1^{(1)} & \cdots& W_n^{(1)} \\ 
+		W_1^{(1)} & W_2^{(1)} & \cdots& W_n^{(1)} \\ 
 		W_1^{(2)} & W_2^{(2)} & \cdots& W_n^{(2)} \\ 
 		\cdots & \cdots & \cdots & \cdots \\
 		W_1^{(k)} & W_2^{(k)} & \cdots& W_n^{(k)}
@@ -295,7 +295,7 @@ W = \left \{
 $$
 回顾之前所说的:
 
-*对于一个样本$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$，点乘$w$，就可以得到$||X_{project}^{(i)}||$，也就是投射后的向量的模，再在使用这个模去点乘$w$，就能得到这个向量本身$X_{project}^{(i)}= (X_{pr1}^{(i)}, X_{pr2}^{(i)})$。*
+*对于一个样本$X^{(i)} = (X_1^{(i)}, X_2^{(i)})$，点乘$w$，就可以得到$||X_{project}^{(i)}||$，也就是投射后的向量的模，再使用这个模去点乘$w$，就能得到这个向量本身$X_{project}^{(i)}= (X_{pr1}^{(i)}, X_{pr2}^{(i)})$。*
 
 推广，如果将这一个样本，分别点乘这$k$个$w$，就能得到这一个样本在$k$个$w$上的映射的大小。这$k$个元素和在一起就能表示这一个样本映射到$k$个轴的坐标系上的相应的样本的大小。
 
@@ -311,8 +311,8 @@ $$
 $$
 X_k = \left \{
     \begin{matrix}
-		X_1^{(1)} & X_2^{(1)} & \cdots & X_n^{(1)} \\ 
-		X_1^{(2)} & X_2^{(2)} & \cdots & X_n^{(2)} \\ 
+		X_1^{(1)} & X_2^{(1)} & \cdots & X_k^{(1)} \\ 
+		X_1^{(2)} & X_2^{(2)} & \cdots & X_k^{(2)} \\ 
 		\cdots & \cdots & \cdots & \cdots \\
 		X_1^{(m)} & X_2^{(m)} & \cdots & X_k^{(m)}
     \end{matrix}
@@ -320,7 +320,7 @@ X_k = \left \{
  \\
 W = \left \{
     \begin{matrix}
-		W_1^{(1)} & W_1^{(1)} & \cdots& W_n^{(1)} \\ 
+		W_1^{(1)} & W_2^{(1)} & \cdots& W_n^{(1)} \\ 
 		W_1^{(2)} & W_2^{(2)} & \cdots& W_n^{(2)} \\ 
 		\cdots & \cdots & \cdots & \cdots \\
 		W_1^{(k)} & W_2^{(k)} & \cdots& W_n^{(k)}
@@ -339,11 +339,11 @@ $$
 
 $X_m$与$X$是有区别的：
 
-<p style="align:center"><img src="./pngs/PCAAndGradientAscent_10.png" style="zoom:30%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/PCAAndGradientAscent_10.png" style="zoom:30%; "/></p>
 
-数据经过降维再恢复，所有的数据点都回到了再主成分这个轴上相应的位置上，此时，这些红色的点在一条直线上，每一个点都是被一个2维的特征表示（注，一个点就是一个样本），完全可以把它放在一个一维的轴上用一个数值来表示，这就是PCA降维的基本原理。
+数据经过降维再恢复，所有的数据点都回到了在主成分这个轴上相应的位置上，此时，这些红色的点在一条直线上，每一个点都是被一个2维的特征表示（注，一个点就是一个样本），完全可以把它放在一个一维的轴上用一个数值来表示，这就是PCA降维的基本原理。
 
-值得注意的是，降维的过程中，失去了一些信息，这些信息不能恢复回来，恢复的过程只不过是再高维的空间里表达低维的数值，就像，这些被塞进了一维空间中的点被表示在2维空间中一样。
+值得注意的是，降维的过程中，失去了一些信息，这些信息不能恢复回来，恢复的过程只不过是在高维的空间里表达低维的数值，就像，这些被塞进了一维空间中的点被表示在2维空间中一样。
 
 另外，如果降维的时候，$k$取值$n$的话，也就是完全没有降维的话，$X * W_n$ 再乘以 $W_n^T$的转置，那么结果肯定还是原来的$X$。
 

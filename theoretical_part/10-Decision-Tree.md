@@ -5,7 +5,7 @@
 * [什么是决策树](#DecisionTree)
 * [使用信息熵](#Entropy)
 * [基尼系数](#Gini)
-* [CART与决策树中的超参数](#CART与决策树中的超参数)
+* [CART与决策树中的超参数](#CART)
 * [决策树与回归问题](#DT-Regression)
 * [决策树的局限性](#DT-limits)
 
@@ -44,11 +44,11 @@ flowchart TD
 
 从此就引入一个问题：输入的数据很多时候不是一个标签（Yes/No），很多时候可能是一个数值，如何处理数值是一个比较重要的问题。
 
-在这里我们先使用scikit-learn包中的决策树进行算法的演示，在回过头来回答这个问题。[进入代码](../notebooks/chp10-Desision-Tree/01-DecisionTree-in-sklearn.ipynb)
+在这里我们先使用scikit-learn包中的决策树进行算法的演示，再回过头来回答这个问题。[进入代码](../notebooks/chp10-Desision-Tree/01-DecisionTree-in-sklearn.ipynb)
 
 使用决策树来对鸢尾花数据集进行分类，得到了这样的决策边界：
 
-<p style="align:center"><img src="./pngs/decTree_1.png" style="zoom:30%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/decTree_1.png" style="zoom:30%; "/></p>
 
 每个数据都有两个特征，$x, y$，算法做出这样的决策边界，是经过这样的流程的：
 
@@ -60,7 +60,7 @@ flowchart LR
 	d2 --N-->C
 ```
 
-再面对数值特征的时候，决策树需要选择一个阈值以及一个特征作为分支条件。
+在面对数值特征的时候，决策树需要选择一个阈值以及一个特征作为分支条件。
 
 决策树：
 
@@ -117,7 +117,7 @@ $$
 G = 1 - (\frac{1}{10})^2 - (\frac{2}{10})^2 - (\frac{7}{10})^2 = 0.46
 $$
 
-* 其性质和信息熵有些类似，第二组数据的确定性比第一组数据低，所以基尼系数也比较低。
+* 其性质和信息熵有些类似，第二组数据的确定性比第一组数据高，所以基尼系数也比较低。
 * 越高，数据的不确定性越强
 * 越低，数据的确定性越强
 
@@ -147,7 +147,7 @@ $$
 
 整体可以看出来，因为CART决策树在建立完成后，其做决定，预测的时间复杂度为其高度，即$O(\log m)$,$m$是样本个数。
 
-反之，训练过程的时间复杂度为$O(n \times n \times \log m)$，因为对于$\log m$层，每一层都需要做$n\times m$次尝试。
+反之，训练过程的时间复杂度为$O(n \times m \times \log m)$，因为对于$\log m$层，每一层都需要做$n\times m$次尝试。
 
 决策树很容易产生过拟合，当然也不是决策树的问题，类似于kNN，所有的非参数学习的算法都很容易产生过拟合。对于决策树来说，一个有效的解决方法就是**剪枝**，其目的就是降低复杂度，解决过拟合。
 
@@ -174,19 +174,19 @@ CART的超参数：
 
 #### <span id="DT-limits">决策树的局限性</span>
 
-<p style="align:center"><img src="./pngs/decTree_1.png" style="zoom:30%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/decTree_1.png" style="zoom:30%; "/></p>
 
 观察这个图，每一个决策边界都是与坐标轴平行的，原因很简单，因为生成决策边界的时候，是基于某一个特征值的，这里就是x，y轴。对于这样的决策边界，一个显而易见的局限性就是，对于使用与x，y轴平行的决策边界不可分的数据来说，其性能就会很差：
 
-<p style="align:center"><img src="./pngs/decTree_2.png" style="zoom:40%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/decTree_2.png" style="zoom:40%; "/></p>
 
 更严重一点的话，数据分布假设是这样：
 
-<p style="align:center"><img src="./pngs/decTree_3.png" style="zoom:20%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/decTree_3.png" style="zoom:20%; "/></p>
 
 这样看没啥问题，但是，同样的分布，稍微旋转一下，决策树产生的边界就会很奇怪：
 
-<p style="align:center"><img src="./pngs/decTree_4.png" style="zoom:30%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/decTree_4.png" style="zoom:30%; "/></p>
 
 再来，决策树，或者说大多数的非参数学习的算法，都对个别的数据比较敏感。[参考代码](../notebooks/chp10-Desision-Tree/07-Problems-of-Decision-Tree.ipynb)
 

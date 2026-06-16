@@ -13,7 +13,7 @@
 * [衡量回归模型的性能的指标](#RegressionModelPerformanceEvaluation)
     * [衡量回归模型性能的指标：MSE](#RegressionModelPerformanceEvaluation_MSE)
     * [衡量回归模型性能的指标：RMSE](#RegressionModelPerformanceEvaluation_RMSE)
-    * [衡量回归模型性能的指标：RMSE](#RegressionModelPerformanceEvaluation_MEA)
+    * [衡量回归模型性能的指标：MAE](#RegressionModelPerformanceEvaluation_MEA)
     * [衡量回归模型性能的指标：R Squared](#RegressionModelPerformanceEvaluation_R_Squared)
 
 
@@ -38,7 +38,7 @@ $$
 对于$X = (x_1, x_2, \cdots x_i)$，元素总数为$m$，其均值为$\bar{X}$，方差$s^2_{X}$为：
 $$
 s^2_X = \frac 
-		{\sum^m_{i=1}(x_i - x)^2 }
+		{\sum^m_{i=1}(x_i - \bar{X})^2 }
 		{m}
 $$
 
@@ -64,8 +64,8 @@ $$
 	x_i - \bar{X}
 )^2 &= 
 \sum^m_{i=1}(
-	x_i - 2x_i\cdot\bar{X}+\bar{X}^2
-)^2 \\ &=
+	x_i^2 - 2x_i\cdot\bar{X}+\bar{X}^2
+) \\ &=
 (\sum^m_{i=1} x_i^2) - m \cdot \bar{X}^2
 \end{align}
 $$
@@ -190,7 +190,7 @@ $$
 
 [Scaler实现](../models/preprocessing.py)
 
-把所有的胡数据归一到均值为0方差为1的分布中
+把所有的数据归一到均值为0方差为1的分布中
 
 这样做并不保证数据在0~1之间，但是可以保证其均值为0，整体数据的方差为1
 
@@ -201,7 +201,7 @@ $$
 x_{scale} &= \frac{x - \bar{x}} {S} \\ 
 \bar{x} &= \frac{1}{n} \sum_{i=1}^n x_i (均值) 
 \\ S &= \frac { \sum_{i=1}^n
-x_i-\bar{x}} {n - 1} (方差)
+(x_i-\bar{x})^2} {n - 1} (方差)
 \end{align}
 $$
 
@@ -313,10 +313,10 @@ $$
 训练过程结束后，得到了$(a, b)$，将其带入
 
 $$
-\hat{y}_{train} = ax_{itest} + b
+\hat{y}_{test} = ax_{itest} + b
 $$
 
-就可以相应的得到每一个$x_{test}$ 对应的 $\hat{y}_{train}$。
+就可以相应的得到每一个$x_{test}$ 对应的 $\hat{y}_{test}$。
 
 相应的<span id="BaseMeasurements">衡量标准</span>就变成了：
 $$
@@ -334,7 +334,7 @@ $$
 
 ##### <span id="RegressionModelPerformanceEvaluation_MSE">衡量回归模型性能的指标：MSE</span>
 
-MSE标注全程叫做Mean Squared Error, 均方误差，其实这个算法并没有做很多事情，只是在[上述标准](#BaseMeasurements)的基础上，除以m（测试数据条目数），去处样本数量对结果产生的影响，**只拿平均一个测试样本的误差说事儿**，其表达式为：
+MSE标注全称叫做Mean Squared Error, 均方误差，其实这个算法并没有做很多事情，只是在[上述标准](#BaseMeasurements)的基础上，除以m（测试数据条目数），去除样本数量对结果产生的影响，**只拿平均一个测试样本的误差说事儿**，其表达式为：
 $$
 \frac {1}{m} \cdot
 \sum^m_{i=1}(
@@ -374,7 +374,7 @@ $$
 	y_{itest} - \hat{y}_{itest}
 | \tag{MAE}
 $$
-使用差值的绝对值的和的均值也可以衡量模型的优劣，在简单线性回归模型中，推到损失函数时，因为绝对值函数不是一个处处可导的函数，所以放弃了使用绝对值，但是衡量算法标准时，这完全行得通。
+使用差值的绝对值的和的均值也可以衡量模型的优劣，在简单线性回归模型中，推导损失函数时，因为绝对值函数不是一个处处可导的函数，所以放弃了使用绝对值，但是衡量算法标准时，这完全行得通。
 
 **评价算法使用的标准和训练模型时最优化的目标函数是可以完全不一致的**
 
@@ -424,7 +424,7 @@ $R^2$指标的性质：
 * 当模型等于基准模型时，$R^2$为0
 * 当$R^2 \lt 0$，说明学习到的模型还不如基准模型。对于线性模型来说，很有可能是数据不存在任何线性关系。
 
-回过头来看$R^2$的表达式，分时部分中，若分子分母之间同时除以$m$，其结果不变，但是分子部分就变成了[MSE](#RegressionModelPerformanceEvaluation_MSE)，分母部分就变成了方差：
+回过头来看$R^2$的表达式，分式部分中，若分子分母之间同时除以$m$，其结果不变，但是分子部分就变成了[MSE](#RegressionModelPerformanceEvaluation_MSE)，分母部分就变成了方差：
 $$
 R^2 = 1 - \frac
 	{\sum_i (\hat{y}_i - y_i) ^2} 

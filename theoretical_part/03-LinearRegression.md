@@ -5,7 +5,7 @@
 * [简单的描述](#Descriptions)
 * [简单线性回归](#SimpleLinearRegression)
     * [如何描述预测值与真值的差距](#TrueValuePrediectValueDistance)
-    * [一个典型地机器学习模型](#A-tyipical-ML-Model)
+    * [一个典型的机器学习模型](#A-tyipical-ML-Model)
     * [最小二乘法推导简单线性回归损失函数](#LossFunctionOfSimpleLinearRegressionByLeastSquares)
 * [多元线性回归](#MultipleLinearRegression)
 
@@ -23,9 +23,9 @@
 
 #### <span id="Descriptions">简单的描述</span>
 
-假设，有一组房屋价格是数据，包含房屋的面积和房屋的价格两个内容：
+假设，有一组房屋价格的数据，包含房屋的面积和房屋的价格两个内容：
 
-<p style="align:center"><img src="./pngs/LinearRegression_2.png" style="zoom:50%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/LinearRegression_2.png" style="zoom:50%; "/></p>
 
 横轴表示房屋面积，纵轴表示价格。
 
@@ -35,7 +35,7 @@
 
 在这样的一种假设下，我们需要寻找一条**直线**，穿梭在样本之间，最大程度的**拟合（fit）**样本特征和样本输出标记（这里就是纵轴）之间的关系。
 
-<p style="align:center"><img src="./pngs/LinearRegression_3.png" style="zoom:50%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/LinearRegression_3.png" style="zoom:50%; "/></p>
 
 即，图中的红色直线。
 
@@ -75,9 +75,9 @@ $$
 
 来表示。
 
-其中，得到的$\hat{y_i}$就是使用简单 线性回归法的到的预测值，也就是算法的输出。
+其中，得到的$\hat{y_i}$就是使用简单 线性回归法得到的预测值，也就是算法的输出。
 
-<p style="align:center"><img src="./pngs/LinearRegression_4.png" style="zoom:50%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/LinearRegression_4.png" style="zoom:50%; "/></p>
 
 预测值$\hat{y_i}$和真值$y_i$之间是**存在差距的**
 
@@ -125,7 +125,7 @@ $$
 
 <hr/>
 
-#### <span id="A-tyipical-ML-Model">一个典型地机器学习模型</span>
+#### <span id="A-tyipical-ML-Model">一个典型的机器学习模型</span>
 
 一句题外话，机器学习许多的算法其实就是这样的过程，找到某个特定的参数，使得某一个函数的取值尽可能大，或者尽可能小，线性回归算法这里的函数就是上述的$D$
 
@@ -134,8 +134,8 @@ $$
 
 ```mermaid
 flowchart LR
-分析问题 --> 缺点问题的损失函数或者效用函数
-缺点问题的损失函数或者效用函数 --> 最优化损失或者效用函数
+分析问题 --> 确定问题的损失函数或者效用函数
+确定问题的损失函数或者效用函数 --> 最优化损失或者效用函数
 最优化损失或者效用函数 --> 获得机器学习的模型
 ```
 
@@ -147,7 +147,7 @@ flowchart LR
 * 逻辑回归
 * 神经网络
 
-所以，有一颗学科非常重要：《最优化原理》，其中有一个非常重要的分支叫做《凸优化》。
+所以，有一门学科非常重要：《最优化原理》，其中有一个非常重要的分支叫做《凸优化》。
 
 <hr/>
 
@@ -226,7 +226,7 @@ $$
 b = \bar{y} - a\bar{x}
 $$
 
-至此，$b$的表达式已经推到出来了
+至此，$b$的表达式已经推导出来了
 
 那么，对于$a$来说：
 $$
@@ -302,14 +302,14 @@ $$
     
 \end{align}
 $$
-至此，$a$的表达式就已经求解，但是，为了方便再编程中使用，加速其计算，还可以对$a$进行进一步化简。
+至此，$a$的表达式就已经求解，但是，为了方便在编程中使用，加速其计算，还可以对$a$进行进一步化简。
 对于等式的上半部，其中$x_i \bar{y}$的$\bar{y}$是一个常数，可以提取出来：
 $$
 \sum^m_{i = 1}(y_ix_i  - \bar{y}x_i) = 
 \sum^m_{i = 1}y_ix_i  - \sum^m_{i = 1}\bar{y}x_i = 
 \sum^m_{i = 1}y_ix_i  - \bar{y}\sum^m_{i = 1}x_i
 $$
-若，我们在单独的考虑$\bar{y}\sum^m_{i = 1}x_i$，如果我们使其除以总数$m$，又乘以总数$m$，结果不变，但是可以化简其形式：
+若，我们再单独的考虑$\bar{y}\sum^m_{i = 1}x_i$，如果我们使其除以总数$m$，又乘以总数$m$，结果不变，但是可以化简其形式：
 
 $\sum^m_{i = 1}x_i$除以$m$，意味着把所有的$x_i$相加，除以总数，其实就是均值，
 $$
@@ -376,7 +376,7 @@ $$
 $$
 尽可能地小，但是，这里并不是找到一组$(a, b)$，而是找到一组$n+1$个$\theta=(\theta_0, \theta_1, \cdots,\theta_n)$，使得目标函数取得最小值，$\hat{y}$的表达式变成了：
 $$
-\hat{y}_i = \theta_0 + \theta_1X_i^1+ \theta_2X_i^2+ \theta_nX_i^n \\
+\hat{y}_i = \theta_0 + \theta_1X_i^1+ \theta_2X_i^2+ \cdots + \theta_nX_i^n \\
 \theta = (\theta_0, \theta_1, \theta_2, \cdots, \theta_n)^T\\
 X_n = (X_0, X_1, X_2, \cdots, X_n)^T
 $$
@@ -404,7 +404,7 @@ $$
 | 预测的房价$\hat{y}$万元 | 已知的房屋面积$X^1$ | 已知的房屋楼层$X^2$ | 已知的房屋地理位置$X^3$ | ...  |
 | :---------------------: | :-----------------: | :-----------------: | :---------------------: | :--: |
 |       $\hat{y}_1$       |         233         |         334         |           556           |      |
-|       $\hat{y}_1$       |         779         |         877         |           455           |      |
+|       $\hat{y}_2$       |         779         |         877         |           455           |      |
 |           ...           |         ...         |         ...         |           ...           | ...  |
 
 根据$\hat{y}$的表达式，预测房屋的价格，就应该是：
@@ -419,7 +419,7 @@ X &=
 \left\{
 \begin{matrix}
 	X_1^1 & X_2^1& \cdots & X_n^1 \\
-	X_1^1 & X_2^1& \cdots & X_n^1 \\
+	X_1^2 & X_2^2& \cdots & X_n^2 \\
 	\cdots & \cdots & \cdots \cdots & \cdots \\
 	X_1^m & X_2^m& \cdots & X_n^m \\
 \end{matrix}
@@ -430,7 +430,7 @@ X_b &=
 \left\{
 \begin{matrix}
 	1 & X_1^1 & X_2^1& \cdots & X_n^1 \\
-	1 & X_1^1 & X_2^1& \cdots & X_n^1 \\
+	1 & X_1^2 & X_2^2& \cdots & X_n^2 \\
 	\cdots & \cdots & \cdots \cdots & \cdots \\
 	1 & X_1^m & X_2^m& \cdots & X_n^m \\
 \end{matrix}
@@ -450,12 +450,12 @@ X_b &=
 \tag{数学表达}
 \end{align}
 $$
-其中，n为样本表格又多少列，m为样本表格有多少行（m行n列）。
+其中，n为样本表格有多少列，m为样本表格有多少行（m行n列）。
 
 * $X$是数据矩阵。
-* $X_b$实在$X$地基础上，在最左边增加一全部都是1的列，因为$\theta_0$是一个常数。
+* $X_b$是在$X$的基础上，在最左边增加一全部都是1的列，因为$\theta_0$是一个常数。
 * $\theta$是机器学习学习到的参数，也就是所谓的*模型*
-* $\hat{y}$是一个向量，其中的元素是使用$\theta$对$X$中每一样样本进行预测的结果。
+* $\hat{y}$是一个向量，其中的元素是使用$\theta$对$X$中每一个样本进行预测的结果。
 
 比如上述的[预测数据样例](#SampleTestDataChart)，就可以表示为：
 $$
@@ -464,14 +464,14 @@ X &=
 \left\{
 \begin{matrix}
 	233 & 334 & 556 \\
-	779 & 887 & 455
+	779 & 877 & 455
 \end{matrix}
 \right\}, \\
 
 X_b &= \left\{
 \begin{matrix}
 	1 & 233 & 334 & 556 \\
-	1 & 779 & 887 & 455
+	1 & 779 & 877 & 455
 \end{matrix}
 \right\}, \\
 
@@ -512,9 +512,9 @@ $$
 
 思路也很简单，就是使用最小二乘法，对每一个量求导，然后求极值，但是过程相对复杂，这里只写结果：
 $$
-\theta = (X_b^T X_b)^{-1} X_b^T y \tag{Norlmal Equation}
+\theta = (X_b^T X_b)^{-1} X_b^T y \tag{Normal Equation}
 $$
-这个式子被称为，**多元线性回归地正规方程解。**
+这个式子被称为，**多元线性回归的正规方程解。**
 
 不需要记忆，一查哪儿都有，并且除了最小二乘法还有别的方法可以推导。
 
@@ -522,7 +522,7 @@ $$
 
 优点就是不需要对数据做归一化处理。
 
-更加好用地方法，参考下一章，梯度下降法。
+更加好用的方法，参考下一章，梯度下降法。
 
 
 

@@ -34,7 +34,7 @@ $$
 
 补充，[Pipeline的知识点](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/02-Polynomial-Regression-and-Pipeline.ipynb)
 
-通过代码演示，可以看到多项式回归并没有什么新的机器学习的思路，只是添加了更多次数的项，作为新的特征。这个和PCA算法对数据进行降为的操作是相反的。
+通过代码演示，可以看到多项式回归并没有什么新的机器学习的思路，只是添加了更多次数的项，作为新的特征。这个和PCA算法对数据进行降维的操作是相反的。
 
 ### <span id="Overfit-Underfit">过拟合与欠拟合</span>
 
@@ -56,7 +56,7 @@ $$
 
 比如例子中的过拟合的曲线：
 
-<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_1.png" style="zoom:25%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_1.png" style="zoom:25%; "/></p>
 
 红色的曲线是模型，蓝色的样本数据，使用这个过拟合的模型预测出一个结果，作为紫色的点。显然，紫色点并不在样本的分布趋势上。
 
@@ -72,7 +72,7 @@ $$
 
 通常来说，机器学习的算法都存在这样关系：
 
-<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_2.png" style="zoom:25%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_2.png" style="zoom:25%; "/></p>
 
 从欠拟合到合适到过拟合，不同的算法所获取的这个图可能是不一样的，但是整体的趋势是这样的。
 
@@ -88,7 +88,7 @@ $$
 
 ### <span id="Learning-Curve">学习曲线</span>
 
-<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_2.png" style="zoom:25%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_2.png" style="zoom:25%; "/></p>
 
 这张图描述的是模型复杂度和模型准确率的关系，其中可以很好的观察到过拟合，欠拟合等状况，同时这也是一个比较理论的图像，比较清晰，大多数情况下是没办法针对某一个模型画出这样清晰的曲线的。
 
@@ -103,8 +103,8 @@ $$
 [参考说明代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/05-Learning-Curve.ipynb)
 
 <table><tr>
- <td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_4.png" style="zoom:50%; " border=0/></td>
-<td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_3.png" style="zoom:50%; " border=0/></td>
+ <td><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_4.png" style="zoom:50%; " border=0/></td>
+<td><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_3.png" style="zoom:50%; " border=0/></td>
 </tr></table>
 * 横轴是训练的样本数，纵轴为train，test的loss score。随着训练的样本的增加，模型在训练数据集，测试数据集上的score。
 
@@ -114,8 +114,8 @@ $$
 * 测试数据集中，距离训练数据集的误差比较远，这就意味着模型的泛化能力不行，对于新的数据来说误差比较大
 
 <table><tr>
-<td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_4.png" style="zoom:50%; " border=0/></td>
-<td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_5.png" style="zoom:50%; " border=0/></td>
+<td><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_4.png" style="zoom:50%; " border=0/></td>
+<td><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_5.png" style="zoom:50%; " border=0/></td>
 </tr></table>
 
 对于欠拟合：
@@ -227,7 +227,7 @@ pie
 
 把训练数据集分成k份训练，这种做法叫做**k-folds 交叉验证（k-folds cross validasion）**
 
-缺点：每次都得训练k个模型，相当于整体性能满了k倍
+缺点：每次都得训练k个模型，相当于整体性能慢了k倍
 
 极端情况下，k-folds 交叉验证可以变成**留一法LOO-CV（Leave-One-Out Cross Validation）**
 
@@ -237,7 +237,7 @@ pie
 
 ### <span id="Bias Variance Trade off">偏差方差权衡</span>
 
-<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_6.png" style="zoom:25%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_6.png" style="zoom:25%; "/></p>
 
 偏差（Bias），观察左下角的图，目标是中心的红点，打靶子的话，所有的子弹都偏离了中心的红点，这就是有比较高的偏差。
 
@@ -264,9 +264,9 @@ pie
 
 对于方差和偏差来说：
 
-* 有些算法是天生的高方差（Hight Variance）算法，比如kNN。
+* 有些算法是天生的高方差（High Variance）算法，比如kNN。
 * 非参数学习（kNN，决策树就是非参数学习）通常都是高方差算法，**因为不对数据进行任何假设**。
-* 有一些算法是天生的高偏差（Hight Bias）算法， 比如线性回归。
+* 有一些算法是天生的高偏差（High Bias）算法， 比如线性回归。
 * 参数学习通常都是高偏差算法，**因为对数据具有极强的假设**。
 
 大多数算法具有相应的参数，可以调整偏差和方差，比如kNN中的k，线性回中使用多项式回归（调整degree）等。
@@ -278,7 +278,7 @@ pie
 
 一个理想的机器学习模型，是低偏差，低方差的，实际情况下没这么理想，算法会出现错误，此时就要研究这个算法的错误主要是方差还是偏差，想办法使其平衡，不要太高的方差（模型泛化能力太差），不要太高的偏差（不然就偏离了问题的本质），错误本身不能避免，只能尽可能平衡。
 
-调参实际就会在解决这个问题。**在机器学习领域，主要挑战来自于方差。（只局限于算法层面，不考虑问题，因为人类有时候对问题的理解太过于肤浅，比如对金融市场的理解，对疾病的理解）**
+调参实际就是在解决这个问题。**在机器学习领域，主要挑战来自于方差。（只局限于算法层面，不考虑问题，因为人类有时候对问题的理解太过于肤浅，比如对金融市场的理解，对疾病的理解）**
 
 一直到我自己撰写这篇笔记为止，有不少人尝试使用历史的金融数据来预测未来的金融市场的走向，但是结果都是不尽理想的。因为愚蠢的人类总是做一些愚蠢的假设，使用的数据和问题之间没什么联系，这就引进了巨大的偏差。
 
@@ -302,9 +302,9 @@ pie
 
 回到这个例子：
 
-<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_1.png" style="zoom:25%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_1.png" style="zoom:25%; "/></p>
 
-这是多项式回归算法过拟合后产生的模型。模型非常的陡峭，实际上如果观察模型的数据值，可以发现，多项式的每个项前面的系数$(\theta_0 + \theta_1 x_1 + \theta_1 x_1 \cdots)$，那个$\theta$值，有些系数会非常大。
+这是多项式回归算法过拟合后产生的模型。模型非常的陡峭，实际上如果观察模型的数据值，可以发现，多项式的每个项前面的系数$(\theta_0 + \theta_1 x_1 + \theta_2 x_2 \cdots)$，那个$\theta$值，有些系数会非常大。
 
 模型正则化，就是希望可以限制这个系数的大小，在这里用[一段代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/07-Model-Regularization.ipynb)来整这个$\theta$值，以及展示正则化。
 
@@ -312,7 +312,7 @@ pie
 
 使得
 $$
-\sum_{i=1}^m (y^{(i)} - \theta_0 - \theta_1X_1^{(i)} - \theta_2X_2^{(i)}-\cdots\ \theta_nX_n^{(i)})
+\sum_{i=1}^m (y^{(i)} - \theta_0 - \theta_1X_1^{(i)} - \theta_2X_2^{(i)}-\cdots-\ \theta_nX_n^{(i)})^2
 $$
 尽可能的小。换句话说，就是，使得目标函数：
 $$
@@ -326,7 +326,7 @@ J(\theta) = MSE(y, \hat{y}; \theta) + \alpha\frac{1}{2}\sum_{i=1}^n\theta_i^2
 $$
 尽可能小的。
 
-前半部分的MSE不变，加入的部分是，所有的参数的平方和的一半乘以某个常数$\alpha$。这样做之后，要使得损失函数$J$最小，就不紧要顾及MSE这一项，还需要考虑到后面这一项，而后面这一项式所有的系数的平方和，使得这一项最小就意味着需要使得所有的系数都尽可能小。
+前半部分的MSE不变，加入的部分是，所有的参数的平方和的一半乘以某个常数$\alpha$。这样做之后，要使得损失函数$J$最小，就不仅要顾及MSE这一项，还需要考虑到后面这一项，而后面这一项是所有的系数的平方和，使得这一项最小就意味着需要使得所有的系数都尽可能小。
 
 当然需要注意一些细节：
 
@@ -334,11 +334,11 @@ $$
 
 * 二分之一加不加都可以，因为使用梯度下降法优化这个目标函数$J$的时候需要求导，后面的$\theta_i$头顶上有个平方，微分以下这个平方就下来了，如果有个二分之一，就可以吃掉这个平方引入的2。不要也行
 
-* 这个$\alpha$是一个新的超参数，因为新的目标中包含了似的所有的系数的平方和尽可能的小，这个小的程度占整个优化损失函数程度的多少。
+* 这个$\alpha$是一个新的超参数，因为新的目标中包含了使得所有的系数的平方和尽可能的小，这个小的程度占整个优化损失函数程度的多少。
 
   * 等于0的时候就意味着没有模型正则化
   * 如果是正无穷的话，前面的MSE的比重就很小，主要的优化任务就是**使得所有的$\theta_i$最小**，极端情况下所有的$\theta_i$都得是0，才能最小
-  * 对于不同的数据，需要考虑是重点优化MSE，还是重点优化屁股后面的那个系数的平方和，需要对$\alpha$进行调惨
+  * 对于不同的数据，需要考虑是重点优化MSE，还是重点优化屁股后面的那个系数的平方和，需要对$\alpha$进行调参
 
 * $\alpha$是个常数，乘以屁屁后面的二分之一，也是个常数，不加入二分之一也是可以的，因为这一部分和$\alpha$本身是融合在一起的。 
 
@@ -383,14 +383,14 @@ $$
 具体与岭回归的不同，[参见代码](../notebooks/chp6-Polynomial-Regression-and-Model-Generalization/09-LASSO.ipynb)
 
 <table><tr>
- <td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_7.png" style="zoom:70%; " border=0/></td>
-<td><img src="./pngs/Polynomial-Regression-and-Model-Generalization_8.png" style="zoom:70%; " border=0/></td>
+ <td><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_7.png" style="zoom:70%; " border=0/></td>
+<td><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_8.png" style="zoom:70%; " border=0/></td>
 </tr></table>
 
 比较Ridge与LASSO。
 
 * 使用Ridge很难让模型变成一根直线，总是能弯曲一些，意味着有很多X(aka 特征），前面依然是有系数的
-* LAASO获得曲线的弯曲程度更低，更倾向于变成一根直线，意味着有很多特征前面的系数变成0
+* LASSO获得曲线的弯曲程度更低，更倾向于变成一根直线，意味着有很多特征前面的系数变成0
 
 LASSO趋向于使得一部分特征的系数值变为0，所以可以作为特征选择用。所以为什么有一个Selection Operator。
 
@@ -424,15 +424,15 @@ $$
 
 所以假设有一个随机的初始点，按照这样的每一个维度都有值的梯度进行下降的话，会产生一个连续的轨迹（因为梯地下降的过程中，每一步$\theta$都是有值的）：
 
-<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_9.png" style="zoom:25%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_9.png" style="zoom:25%; "/></p>
 
 对于LASSO来说，若使得alpha趋近于无穷时（aka后一项的优化权最大的时候），但是这一项有个绝对值，不是处处可导的，但是可以使用sign函数来刻画：
 $$
 \nabla = \alpha
 \left \{
     \begin{matrix}
-		sign(\theta_0) \\ 
 		sign(\theta_1) \\ 
+		sign(\theta_2) \\ 
 		\cdots \\ 
 		sign(\theta_n)
     \end{matrix}
@@ -441,16 +441,16 @@ $$
 其中，sign函数为：
 $$
 sign(x) = \left \{
-  \begin{align}
+  \begin{aligned}
     1, x > 0 \\
     0, x = 0 \\
     -1, x < 0
-  \end{align}
+  \end{aligned}
 \right.
 $$
 不考虑前面的MSE的时候，它的梯度就是alpha乘以一个向量，这个向量就只有-1，0，1这三种，梯度下降的时候，从初始点出发，会绘制出这样的路径：
 
-<p style="align:center"><img src="./pngs/Polynomial-Regression-and-Model-Generalization_10.png" style="zoom:50%; "/></p>
+<p style="align:center"><img src="./pngs_redrawn/Polynomial-Regression-and-Model-Generalization_10.png" style="zoom:50%; "/></p>
 
 不能绘制出一条曲线。在这个过程中，他就会走到某些轴的0点，使得最终的结果中包含了一堆0。
 
@@ -469,19 +469,19 @@ LASSO可以作为特征选择，但是可能出毛病：把一些有用的特征
 * 都在目标函数后面添加了表达式
 * 但是表达式对$\theta$的约束不同
 
-实际上，这个和MSE，MAE，欧拉距离，曼哈顿距离有异曲同工之妙：
+实际上，这个和MSE，MAE，欧几里得距离，曼哈顿距离有异曲同工之妙：
 
-|               Ridge                |                     MSE                      |                  欧拉距离                   |
+|               Ridge                |                     MSE                      |                  欧几里得距离                   |
 | :--------------------------------: | :------------------------------------------: | :-----------------------------------------: |
-| $\frac{1}{2}\sum_{i=1}^n \theta^2$ | $\frac{1}{2}\sum_{i=1}^n (y_i - \hat{y})^2 $ | $\sqrt{\sum{i=1}^n(x_i^{(1)}-x_i^{(2)})^2}$ |
+| $\frac{1}{2}\sum_{i=1}^n \theta^2$ | $\frac{1}{2}\sum_{i=1}^n (y_i - \hat{y})^2 $ | $\sqrt{\sum_{i=1}^n(x_i^{(1)}-x_i^{(2)})^2}$ |
 |               LASSO                |                     MAE                      |                 曼哈顿距离                  |
-| $\frac{1}{2}\sum_{i=1}^n |\theta|$ |  $\frac{1}{2}\sum_{i=1}^n |y_i - \hat{y}| $  |  $\sqrt{\sum{i=1}^n|x_i^{(1)}-x_i^{(2)}|}$  |
+| $\frac{1}{2}\sum_{i=1}^n |\theta|$ |  $\frac{1}{2}\sum_{i=1}^n |y_i - \hat{y}| $  |  $\sum_{i=1}^n|x_i^{(1)}-x_i^{(2)}|$  |
 
-在机器学习领域，人们创造了许多名次来描述不同的东西在不同领域的应用，比如：
+在机器学习领域，人们创造了许多名词来描述不同的东西在不同领域的应用，比如：
 
 * Ridge/LASSO用于描述模型正则化
 * MSE/MAE来描述模型的误差
-* 欧拉距离，曼哈顿距离来描述两点之间的距离
+* 欧几里得距离，曼哈顿距离来描述两点之间的距离
 
 这些东西的作用不同，描述不同，用法不同，但是他们背后的数学思想却是一样的，表示出来的数学含义也是很类似的。
 
@@ -504,13 +504,13 @@ $$
 $$
 的形式。意思是，对于任何一个向量$X$，我们都可以求等式右边的一个值，对这个向量的第$i$个维度的值的p次方求和，然后对求和后的数值开$p$次方。
 
-数学书叫做L的p范数，比如p=1时（其实就是求0点到这个向量的曼哈顿距离），就是L1范数，p=2（其实就是求0点到这个点的欧拉距离）时就是L2范数。
+数学书叫做L的p范数，比如p=1时（其实就是求0点到这个向量的曼哈顿距离），就是L1范数，p=2（其实就是求0点到这个点的欧几里得距离）时就是L2范数。
 
 结合Lp范数，回头看：
 * 岭回归的那个表达式，是一个平方项，这个叫做L2正则项（虽然没有开方）
 * LASSO所添加的就是L1正则项
 
-实际上以此类推，根据Lp范数往下写，可以用 正则项，但是在模型正则化的过程中，很少有使用p大于2的正则项。但是在数学上是存在这些正则项的。
+实际上以此类推，根据Lp范数往下写，可以用Lp正则项，但是在模型正则化的过程中，很少有使用p大于2的正则项。但是在数学上是存在这些正则项的。
 
 最后，还有一个L0正则项，其定义是依然是给损失函数加入一个东西：
 $$
@@ -524,13 +524,13 @@ min \left\{
 $$
 其目的在于，让theta 的个数尽量小，使得theta越小越好，后面一项描述的是非0theta的个数。
 
-实际上很少使用L0正则，实际用L1取代，因为L0正则的优化是一个NP难的问题，不能使用梯度下降法/求解数学公式的方法来优化，屁股后面那一项是一个离散项，是一个离散最优化的问题，可能需要穷居所有让各种theta的组合为0的可能性，来依次计算损失函数，然后来决定让哪个theta为0，哪些不为0。
+实际上很少使用L0正则，实际用L1取代，因为L0正则的优化是一个NP难的问题，不能使用梯度下降法/求解数学公式的方法来优化，屁股后面那一项是一个离散项，是一个离散最优化的问题，可能需要穷举所有让各种theta的组合为0的可能性，来依次计算损失函数，然后来决定让哪个theta为0，哪些不为0。
 
 最后，在本文最后介绍最后一个概念：**弹性网 Elastic Net**
 
 弹性网结合了L1，L2正则项两种正则化方式，对损失函数进行修饰：
 $$
-J(\theta) = MSE(y,\hat(y); \theta) + r \alpha\sum_{i=1}^n|\theta_i| + \frac{1-r}{2} \alpha\sum_{i=1}^n \theta_i^2
+J(\theta) = MSE(y,\hat{y}; \theta) + r \alpha\sum_{i=1}^n|\theta_i| + \frac{1-r}{2} \alpha\sum_{i=1}^n \theta_i^2
 \tag{Elastic Net}
 $$
 
